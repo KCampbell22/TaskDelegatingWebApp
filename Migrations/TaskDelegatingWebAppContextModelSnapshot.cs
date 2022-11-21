@@ -96,10 +96,10 @@ namespace TaskDelegatingWebApp.Migrations
                     b.Property<int>("PersonId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("DayId")
+                    b.Property<int>("DayId")
                         .HasColumnType("int");
 
-                    b.HasKey("TaskItemId", "PersonId");
+                    b.HasKey("TaskItemId", "PersonId", "DayId");
 
                     b.HasIndex("DayId");
 
@@ -174,9 +174,11 @@ namespace TaskDelegatingWebApp.Migrations
 
             modelBuilder.Entity("TaskDelegatingWebApp.Models.TaskAssignment", b =>
                 {
-                    b.HasOne("TaskDelegatingWebApp.Models.Day", null)
+                    b.HasOne("TaskDelegatingWebApp.Models.Day", "Day")
                         .WithMany("TaskAssignments")
-                        .HasForeignKey("DayId");
+                        .HasForeignKey("DayId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("TaskDelegatingWebApp.Models.Person", "Person")
                         .WithMany("TaskAssignments")
@@ -189,6 +191,8 @@ namespace TaskDelegatingWebApp.Migrations
                         .HasForeignKey("TaskItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Day");
 
                     b.Navigation("Person");
 

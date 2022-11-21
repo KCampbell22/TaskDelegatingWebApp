@@ -1,4 +1,4 @@
-﻿@model TaskDelegatingWebApp.Models.TaskAssignment
+@model TaskDelegatingWebApp.Models.TaskAssignment
 
 @{
     ViewData["Title"] = "Delete";
@@ -23,11 +23,18 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.TaskItem.TaskItemId)
         </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Day)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Day.DayId)
+        </dd>
     </dl>
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="PersonId" />
         <input type="hidden" asp-for="TaskItemId" />
+        <input type="hidden" asp-for="DayId" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
         <a asp-action="Index">Back to List</a>
     </form>

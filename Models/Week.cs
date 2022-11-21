@@ -1,5 +1,7 @@
 ﻿namespace TaskDelegatingWebApp.Models
 {
+#nullable disable
+
     public class Week
     {
         public int Id { get; set; }

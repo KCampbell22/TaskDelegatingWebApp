@@ -1,4 +1,4 @@
-﻿@model TaskDelegatingWebApp.Models.TaskAssignment
+@model TaskDelegatingWebApp.Models.TaskAssignment
 
 @{
     ViewData["Title"] = "Details";
@@ -21,6 +21,12 @@
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.TaskItem.TaskItemId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Day)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Day.DayId)
         </dd>
     </dl>
 </div>

@@ -1,10 +1,16 @@
-﻿namespace TaskDelegatingWebApp.Models
+﻿using System.ComponentModel.DataAnnotations;
+#nullable disable
+namespace TaskDelegatingWebApp.Models
 {
     public class Person
     {
         public int PersonId { get; set; }
-        public string? Name { get; set; }
-        public string? Email { get; set; }
+        [Required]
+        [StringLength(255)]
+        public string Name { get; set; }
+        [Required]
+        [StringLength(255)]
+        public string Email { get; set; }
         public bool Monday { get; set; }
         public bool Tuesday { get; set; }
         public bool Wednesday { get; set;}
@@ -15,9 +21,8 @@
 
         public ICollection<TaskAssignment> TaskAssignments { get; set;}
 
-        public Person()
-        {
-            TaskAssignments = new HashSet<TaskAssignment>();
-        }
+      
+
+       
     }
 }

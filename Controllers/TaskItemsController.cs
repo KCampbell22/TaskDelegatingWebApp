@@ -22,8 +22,9 @@ namespace TaskDelegatingWebApp.Controllers
         // GET: TaskItems
         public async Task<IActionResult> Index()
         {
-            var taskDelegatingWebAppContext = _context.TaskItems.Include(t => t.Day);
-            return View(await taskDelegatingWebAppContext.ToListAsync());
+            var TaskItemList = _context.TaskItems.Include(t => t.Day)
+                .AsNoTracking();
+            return View(await TaskItemList.ToListAsync());
         }
 
         // GET: TaskItems/Details/5
