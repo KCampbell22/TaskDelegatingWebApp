@@ -12,6 +12,7 @@ namespace TaskDelegatingWebApp.ViewModels
         public IEnumerable<TaskAssignment> TaskAssignments { get; set; }
         public IEnumerable<Person>People { get; set; }
         public IEnumerable<Day> Days { get; set; }
+        public IEnumerable<Week> Weeks { get; set; }
         
 
     }

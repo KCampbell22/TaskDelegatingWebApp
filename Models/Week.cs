@@ -10,9 +10,6 @@
 
         public ICollection<Day> Days { get; set; }
 
-        public Week()
-        {
-            Days = new HashSet<Day>();
-        }
+        
     }
 }

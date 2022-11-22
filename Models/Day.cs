@@ -10,11 +10,10 @@ namespace TaskDelegatingWebApp.Models
 
         public int WeekID { get; set; }
         public Week Week { get; set; }
-        public ICollection<TaskAssignment> TaskAssignments { get; set; }
 
-        public Day()
-        {
-            TaskAssignments = new HashSet<TaskAssignment>();
-        }
+        public ICollection<TaskAssignment> TaskAssignments { get; set; }
+        public ICollection<Person> People { get; set; }
+
+        
     }
 }
