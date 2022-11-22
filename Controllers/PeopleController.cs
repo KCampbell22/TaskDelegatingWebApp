@@ -9,6 +9,7 @@ using TaskDelegatingWebApp.Data;
 using TaskDelegatingWebApp.Models;
 using TaskDelegatingWebApp.ViewModels;
 
+
 namespace TaskDelegatingWebApp.Controllers
 {
     public class PeopleController : Controller
@@ -186,6 +187,13 @@ namespace TaskDelegatingWebApp.Controllers
           return (_context.People?.Any(e => e.PersonId == id)).GetValueOrDefault();
         }
 
+        
+        public IActionResult GetDetails(int id)
+        {
+            var viewModel = new PersonViewModel();
+            TaskItem singleTaskItem = _context.TaskItems.Where(e => e.TaskItemId == id).Single();
+            return RedirectToAction("Details", "TaskItems", new {id = singleTaskItem.TaskItemId});
+        }
        
 
     }
