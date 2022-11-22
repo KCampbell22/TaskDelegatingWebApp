@@ -5,6 +5,7 @@ namespace TaskDelegatingWebApp.Models
 {
     public partial class TaskAssignment
     {
+        [ForeignKey("")]
         public int PersonId { get; set; }
         public Person Person { get; set; }
 

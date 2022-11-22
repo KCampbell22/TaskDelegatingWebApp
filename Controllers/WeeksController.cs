@@ -26,10 +26,10 @@ namespace TaskDelegatingWebApp.Controllers
             var weekViewModel = new PersonViewModel();
             weekViewModel.Weeks = await _context.Weeks.Include(e => e.Days)
                 .ThenInclude(e => e.People)
-                    .ThenInclude(e => e.TaskAssignments)
-                        .ThenInclude(e => e.TaskItem)
-                            .ThenInclude(e => e.Day)
-                        
+                .ThenInclude(e => e.TaskAssignments)
+                .ThenInclude(e => e.Day)
+                .ThenInclude(e => e.TaskAssignments)
+                .ThenInclude(e => e.TaskItemId)
                 .AsNoTracking()
                 .OrderBy(e => e.Id)
                 .ToListAsync();
