@@ -84,8 +84,7 @@
             }
             <tr class="@selectedRow">
                 <td>
-                    @Html.ActionLink("Select", "Index", new { courseID = item.TaskItemId })
-                </td>
+                    @Html.ActionLink("Select", "Details", "TaskItems", new {id = item.TaskItemId})
                 <td>
                     @item.TaskItemId
                 </td>
@@ -96,7 +95,7 @@
                     @item.TaskDescription
                 </td>
                 <td>
-                    @itemDay.DayName
+                    @Html.ActionLink(itemDay.DayName, "Details", "Days", new {id = itemDay.DayId})
                 </td>
             </tr>
         }

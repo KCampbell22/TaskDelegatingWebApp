@@ -21,14 +21,14 @@ namespace TaskDelegatingWebApp.Controllers
         }
 
         // GET: People
-        public  IActionResult Index(int? id, int? taskItemId, int? dayId)
+        public async  Task<IActionResult> Index(int? id, int? taskItemId, int? dayId)
         {
             var viewModel = new PersonViewModel();
-            viewModel.People = _context.People.Include(e => e.TaskAssignments)
+            viewModel.People = await _context.People.Include(e => e.TaskAssignments)
                 .ThenInclude(e => e.TaskItem)
                 .ThenInclude(e => e.Day)
                 .AsNoTracking()
-                .OrderBy(e => e.Name);
+                .OrderBy(e => e.Name).ToListAsync();
 
 
             if(id != null)
@@ -186,6 +186,10 @@ namespace TaskDelegatingWebApp.Controllers
           return (_context.People?.Any(e => e.PersonId == id)).GetValueOrDefault();
         }
 
+        public IActionResult GetDetails(int id)
+        {
+            return RedirectToRoute("/TaskItems/Details/{id}");
+        }
        
 
     }
