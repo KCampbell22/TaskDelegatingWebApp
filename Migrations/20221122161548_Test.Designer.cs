@@ -12,8 +12,8 @@ using TaskDelegatingWebApp.Data;
 namespace TaskDelegatingWebApp.Migrations
 {
     [DbContext(typeof(TaskDelegatingWebAppContext))]
-    [Migration("20221119233939_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20221122161548_Test")]
+    partial class Test
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,10 +36,15 @@ namespace TaskDelegatingWebApp.Migrations
                     b.Property<string>("DayName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("TaskItemId")
+                        .HasColumnType("int");
+
                     b.Property<int>("WeekID")
                         .HasColumnType("int");
 
                     b.HasKey("DayId");
+
+                    b.HasIndex("TaskItemId");
 
                     b.HasIndex("WeekID");
 
@@ -55,7 +60,9 @@ namespace TaskDelegatingWebApp.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PersonId"));
 
                     b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<bool>("Friday")
                         .HasColumnType("bit");
@@ -64,7 +71,9 @@ namespace TaskDelegatingWebApp.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<bool>("Saturday")
                         .HasColumnType("bit");
@@ -99,7 +108,7 @@ namespace TaskDelegatingWebApp.Migrations
                     b.Property<int>("PersonId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("DayId")
+                    b.Property<int>("DayId")
                         .HasColumnType("int");
 
                     b.HasKey("TaskItemId", "PersonId");
@@ -128,12 +137,10 @@ namespace TaskDelegatingWebApp.Migrations
                     b.Property<string>("TaskName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TimeOfDay")
+                    b.Property<int?>("TimeOfDay")
                         .HasColumnType("int");
 
                     b.HasKey("TaskItemId");
-
-                    b.HasIndex("DayId");
 
                     b.ToTable("TaskItems");
                 });
@@ -159,6 +166,10 @@ namespace TaskDelegatingWebApp.Migrations
 
             modelBuilder.Entity("TaskDelegatingWebApp.Models.Day", b =>
                 {
+                    b.HasOne("TaskDelegatingWebApp.Models.TaskItem", null)
+                        .WithMany("Days")
+                        .HasForeignKey("TaskItemId");
+
                     b.HasOne("TaskDelegatingWebApp.Models.Week", "Week")
                         .WithMany("Days")
                         .HasForeignKey("WeekID")
@@ -177,9 +188,11 @@ namespace TaskDelegatingWebApp.Migrations
 
             modelBuilder.Entity("TaskDelegatingWebApp.Models.TaskAssignment", b =>
                 {
-                    b.HasOne("TaskDelegatingWebApp.Models.Day", null)
+                    b.HasOne("TaskDelegatingWebApp.Models.Day", "Day")
                         .WithMany("TaskAssignments")
-                        .HasForeignKey("DayId");
+                        .HasForeignKey("DayId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("TaskDelegatingWebApp.Models.Person", "Person")
                         .WithMany("TaskAssignments")
@@ -193,20 +206,11 @@ namespace TaskDelegatingWebApp.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Day");
+
                     b.Navigation("Person");
 
                     b.Navigation("TaskItem");
-                });
-
-            modelBuilder.Entity("TaskDelegatingWebApp.Models.TaskItem", b =>
-                {
-                    b.HasOne("TaskDelegatingWebApp.Models.Day", "Day")
-                        .WithMany()
-                        .HasForeignKey("DayId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Day");
                 });
 
             modelBuilder.Entity("TaskDelegatingWebApp.Models.Day", b =>
@@ -221,6 +225,8 @@ namespace TaskDelegatingWebApp.Migrations
 
             modelBuilder.Entity("TaskDelegatingWebApp.Models.TaskItem", b =>
                 {
+                    b.Navigation("Days");
+
                     b.Navigation("Persons");
 
                     b.Navigation("TaskAssignments");

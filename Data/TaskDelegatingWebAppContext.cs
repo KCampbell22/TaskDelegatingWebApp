@@ -21,7 +21,7 @@ namespace TaskDelegatingWebApp.Data
            
             modelBuilder.Entity<TaskAssignment>(entity =>
             {
-                entity.HasKey(c => new { c.TaskItemId, c.PersonId, c.DayId });
+                entity.HasKey(c => new { c.TaskItemId, c.PersonId});
                 entity.ToTable("TaskAssignment");
             });
         }

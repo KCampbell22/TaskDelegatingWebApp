@@ -42,22 +42,23 @@
                 <td>
                     @foreach (var tasks in item.TaskAssignments)
 
-                        @tasks.TaskItem.TaskName <br />
+                        @tasks.TaskItem.TaskName
+         <br />
 
-                </td>
-                
-
-
+                    </td>
 
 
-                <td>
-                    <a asp-action="Index" asp-route-id="@item.PersonId">Select</a> |
 
-                    <a asp-action="Edit" asp-route-id="@item.PersonId">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.PersonId">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.PersonId">Delete</a>
-                </td>
-            </tr>
+
+
+                    <td>
+                        <a asp-action="Index" asp-route-id="@item.PersonId">Select</a> |
+
+                        <a asp-action="Edit" asp-route-id="@item.PersonId">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.PersonId">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.PersonId">Delete</a>
+                    </td>
+                </tr>
         }
 
     </tbody>
@@ -76,7 +77,7 @@
 
         @foreach (var item in Model.TaskItems)
         {
-                Day itemDay = item.Day;
+            Day itemDay = item.Day;
             string selectedRow = "";
             if (item.TaskItemId == (int?)ViewData["TaskItemId"])
             {
@@ -86,20 +87,19 @@
                 <td>
                     @Html.ActionLink("Select", "Details", "TaskItems", new {id = item.TaskItemId})
                 <td>
-                    @item.TaskItemId
+                        @item.TaskItemId
                 </td>
                 <td>
-                    @item.TaskName
+                        @item.TaskName
                 </td>
                 <td>
-                    @item.TaskDescription
+                        @item.TaskDescription
                 </td>
                 <td>
-                    @Html.ActionLink(itemDay.DayName, "Details", "Days", new {id = itemDay.DayId})
+                        @Html.ActionLink(itemDay.DayName, "Details", "Days", new {id = itemDay.DayId})
                 </td>
             </tr>
         }
 
     </table>
 }
-

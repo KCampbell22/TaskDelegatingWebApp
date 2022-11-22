@@ -21,7 +21,7 @@ namespace TaskDelegatingWebApp.Controllers
         }
 
         // GET: People
-        public async  Task<IActionResult> Index(int? id, int? taskItemId, int? dayId)
+        public async Task<IActionResult> Index(int? id, int? taskItemId, int? dayId)
         {
             var viewModel = new PersonViewModel();
             viewModel.People = await _context.People.Include(e => e.TaskAssignments)
@@ -31,7 +31,7 @@ namespace TaskDelegatingWebApp.Controllers
                 .OrderBy(e => e.Name).ToListAsync();
 
 
-            if(id != null)
+            if (id != null)
             {
                 ViewData["PersonId"] = id.Value;
                 Person person = viewModel.People.Where(e => e.PersonId == id.Value).Single();
@@ -46,12 +46,13 @@ namespace TaskDelegatingWebApp.Controllers
 
             }
 
-            
+
 
 
 
             return View(viewModel);
         }
+
 
         // GET: People/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -185,12 +186,5 @@ namespace TaskDelegatingWebApp.Controllers
         {
           return (_context.People?.Any(e => e.PersonId == id)).GetValueOrDefault();
         }
-
-        public IActionResult GetDetails(int id)
-        {
-            return RedirectToRoute("/TaskItems/Details/{id}");
-        }
-       
-
     }
 }

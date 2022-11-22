@@ -33,10 +33,15 @@ namespace TaskDelegatingWebApp.Migrations
                     b.Property<string>("DayName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("TaskItemId")
+                        .HasColumnType("int");
+
                     b.Property<int>("WeekID")
                         .HasColumnType("int");
 
                     b.HasKey("DayId");
+
+                    b.HasIndex("TaskItemId");
 
                     b.HasIndex("WeekID");
 
@@ -52,7 +57,9 @@ namespace TaskDelegatingWebApp.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PersonId"));
 
                     b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<bool>("Friday")
                         .HasColumnType("bit");
@@ -61,7 +68,9 @@ namespace TaskDelegatingWebApp.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<bool>("Saturday")
                         .HasColumnType("bit");
@@ -99,7 +108,7 @@ namespace TaskDelegatingWebApp.Migrations
                     b.Property<int>("DayId")
                         .HasColumnType("int");
 
-                    b.HasKey("TaskItemId", "PersonId", "DayId");
+                    b.HasKey("TaskItemId", "PersonId");
 
                     b.HasIndex("DayId");
 
@@ -125,12 +134,10 @@ namespace TaskDelegatingWebApp.Migrations
                     b.Property<string>("TaskName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TimeOfDay")
+                    b.Property<int?>("TimeOfDay")
                         .HasColumnType("int");
 
                     b.HasKey("TaskItemId");
-
-                    b.HasIndex("DayId");
 
                     b.ToTable("TaskItems");
                 });
@@ -156,6 +163,10 @@ namespace TaskDelegatingWebApp.Migrations
 
             modelBuilder.Entity("TaskDelegatingWebApp.Models.Day", b =>
                 {
+                    b.HasOne("TaskDelegatingWebApp.Models.TaskItem", null)
+                        .WithMany("Days")
+                        .HasForeignKey("TaskItemId");
+
                     b.HasOne("TaskDelegatingWebApp.Models.Week", "Week")
                         .WithMany("Days")
                         .HasForeignKey("WeekID")
@@ -199,17 +210,6 @@ namespace TaskDelegatingWebApp.Migrations
                     b.Navigation("TaskItem");
                 });
 
-            modelBuilder.Entity("TaskDelegatingWebApp.Models.TaskItem", b =>
-                {
-                    b.HasOne("TaskDelegatingWebApp.Models.Day", "Day")
-                        .WithMany()
-                        .HasForeignKey("DayId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Day");
-                });
-
             modelBuilder.Entity("TaskDelegatingWebApp.Models.Day", b =>
                 {
                     b.Navigation("TaskAssignments");
@@ -222,6 +222,8 @@ namespace TaskDelegatingWebApp.Migrations
 
             modelBuilder.Entity("TaskDelegatingWebApp.Models.TaskItem", b =>
                 {
+                    b.Navigation("Days");
+
                     b.Navigation("Persons");
 
                     b.Navigation("TaskAssignments");
