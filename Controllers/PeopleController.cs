@@ -26,7 +26,6 @@ namespace TaskDelegatingWebApp.Controllers
             var viewModel = new PersonViewModel();
             viewModel.People = await _context.People.Include(e => e.TaskAssignments)
                 .ThenInclude(e => e.TaskItem)
-                .ThenInclude(e => e.Day)
                 .AsNoTracking()
                 .OrderBy(e => e.Name).ToListAsync();
 
