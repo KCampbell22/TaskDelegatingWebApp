@@ -17,10 +17,7 @@ namespace TaskDelegatingWebApp.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<TaskItem>(entity =>
-            {
-                entity.HasKey(c => new { c.DayId, c.PersonId });
-            });
+            
             
         }
     }

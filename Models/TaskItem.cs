@@ -6,6 +6,7 @@ namespace TaskDelegatingWebApp.Models
     
     public class TaskItem
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int TaskItemId { get; set; }
         public string TaskName { get; set; }
         public string TaskDescription { get; set; }

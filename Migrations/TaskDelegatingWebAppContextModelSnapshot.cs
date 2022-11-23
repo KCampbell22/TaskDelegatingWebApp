@@ -89,6 +89,12 @@ namespace TaskDelegatingWebApp.Migrations
 
             modelBuilder.Entity("TaskDelegatingWebApp.Models.TaskItem", b =>
                 {
+                    b.Property<int>("TaskItemId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TaskItemId"));
+
                     b.Property<int>("DayId")
                         .HasColumnType("int");
 
@@ -98,16 +104,15 @@ namespace TaskDelegatingWebApp.Migrations
                     b.Property<string>("TaskDescription")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TaskItemId")
-                        .HasColumnType("int");
-
                     b.Property<string>("TaskName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("TimeOfDay")
                         .HasColumnType("int");
 
-                    b.HasKey("DayId", "PersonId");
+                    b.HasKey("TaskItemId");
+
+                    b.HasIndex("DayId");
 
                     b.HasIndex("PersonId");
 

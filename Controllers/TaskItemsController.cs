@@ -86,7 +86,8 @@ namespace TaskDelegatingWebApp.Controllers
                 return NotFound();
             }
             ViewData["DayId"] = new SelectList(_context.Days, "DayId", "DayId", taskItem.DayId);
-            ViewData["PersonId"] = new SelectList(_context.People, "PersonId", "Email", taskItem.PersonId);
+            ViewData["PersonId"] = new SelectList(_context.People, "PersonId", "Name", taskItem.PersonId);
+            ViewData["TimeOfDay"] = new SelectList(_context.TaskItems, "TimeOfDay", "TimeOfDay", taskItem.TimeOfDay);
             return View(taskItem);
         }
 
@@ -123,7 +124,9 @@ namespace TaskDelegatingWebApp.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["DayId"] = new SelectList(_context.Days, "DayId", "DayId", taskItem.DayId);
-            ViewData["PersonId"] = new SelectList(_context.People, "PersonId", "Email", taskItem.PersonId);
+            ViewData["PersonId"] = new SelectList(_context.People, "PersonId", "Name", taskItem.PersonId);
+            ViewData["TimeOfDay"] = new SelectList(_context.TaskItems, "TimeOfDay", "TimeOfDay", taskItem.TimeOfDay);
+
             return View(taskItem);
         }
 

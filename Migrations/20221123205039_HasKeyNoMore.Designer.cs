@@ -12,8 +12,8 @@ using TaskDelegatingWebApp.Data;
 namespace TaskDelegatingWebApp.Migrations
 {
     [DbContext(typeof(TaskDelegatingWebAppContext))]
-    [Migration("20221123162859_UpdateModels")]
-    partial class UpdateModels
+    [Migration("20221123205039_HasKeyNoMore")]
+    partial class HasKeyNoMore
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -92,10 +92,13 @@ namespace TaskDelegatingWebApp.Migrations
 
             modelBuilder.Entity("TaskDelegatingWebApp.Models.TaskItem", b =>
                 {
-                    b.Property<int>("DayId")
+                    b.Property<int>("TaskItemId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("TaskItemId")
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TaskItemId"));
+
+                    b.Property<int>("DayId")
                         .HasColumnType("int");
 
                     b.Property<int>("PersonId")
@@ -110,7 +113,9 @@ namespace TaskDelegatingWebApp.Migrations
                     b.Property<int?>("TimeOfDay")
                         .HasColumnType("int");
 
-                    b.HasKey("DayId", "TaskItemId");
+                    b.HasKey("TaskItemId");
+
+                    b.HasIndex("DayId");
 
                     b.HasIndex("PersonId");
 

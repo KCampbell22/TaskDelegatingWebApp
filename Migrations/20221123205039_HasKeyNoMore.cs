@@ -5,7 +5,7 @@
 namespace TaskDelegatingWebApp.Migrations
 {
     /// <inheritdoc />
-    public partial class UpdateModels : Migration
+    public partial class HasKeyNoMore : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -54,16 +54,17 @@ namespace TaskDelegatingWebApp.Migrations
                 name: "TaskItems",
                 columns: table => new
                 {
-                    TaskItemId = table.Column<int>(type: "int", nullable: false),
-                    DayId = table.Column<int>(type: "int", nullable: false),
+                    TaskItemId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     TaskName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TaskDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TimeOfDay = table.Column<int>(type: "int", nullable: true),
+                    DayId = table.Column<int>(type: "int", nullable: false),
                     PersonId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TaskItems", x => new { x.DayId, x.TaskItemId });
+                    table.PrimaryKey("PK_TaskItems", x => x.TaskItemId);
                     table.ForeignKey(
                         name: "FK_TaskItems_Days_DayId",
                         column: x => x.DayId,
@@ -81,6 +82,11 @@ namespace TaskDelegatingWebApp.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_People_DayId",
                 table: "People",
+                column: "DayId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TaskItems_DayId",
+                table: "TaskItems",
                 column: "DayId");
 
             migrationBuilder.CreateIndex(
