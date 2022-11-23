@@ -1,7 +1,6 @@
 ﻿@model IEnumerable<TaskDelegatingWebApp.Models.TaskItem>
 
 @{
-    #nullable disable
     ViewData["Title"] = "Index";
 }
 
@@ -14,6 +13,9 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.TaskItemId)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.TaskName)
             </th>
             <th>
@@ -25,12 +27,18 @@
             <th>
                 @Html.DisplayNameFor(model => model.Day)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Person)
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TaskItemId)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.TaskName)
             </td>
@@ -41,12 +49,15 @@
                 @Html.DisplayFor(modelItem => item.TimeOfDay)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Day.DayName)
+                @Html.DisplayFor(modelItem => item.Day.DayId)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.TaskItemId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.TaskItemId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.TaskItemId">Delete</a>
+                @Html.DisplayFor(modelItem => item.Person.Email)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
             </td>
         </tr>
 }

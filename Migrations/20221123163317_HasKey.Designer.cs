@@ -12,8 +12,8 @@ using TaskDelegatingWebApp.Data;
 namespace TaskDelegatingWebApp.Migrations
 {
     [DbContext(typeof(TaskDelegatingWebAppContext))]
-    [Migration("20221122161548_Test")]
-    partial class Test
+    [Migration("20221123163317_HasKey")]
+    partial class HasKey
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,17 +36,7 @@ namespace TaskDelegatingWebApp.Migrations
                     b.Property<string>("DayName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("TaskItemId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("WeekID")
-                        .HasColumnType("int");
-
                     b.HasKey("DayId");
-
-                    b.HasIndex("TaskItemId");
-
-                    b.HasIndex("WeekID");
 
                     b.ToTable("Days");
                 });
@@ -58,6 +48,9 @@ namespace TaskDelegatingWebApp.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PersonId"));
+
+                    b.Property<int?>("DayId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -81,9 +74,6 @@ namespace TaskDelegatingWebApp.Migrations
                     b.Property<bool>("Sunday")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("TaskItemId")
-                        .HasColumnType("int");
-
                     b.Property<bool>("Thursday")
                         .HasColumnType("bit");
 
@@ -95,44 +85,24 @@ namespace TaskDelegatingWebApp.Migrations
 
                     b.HasKey("PersonId");
 
-                    b.HasIndex("TaskItemId");
+                    b.HasIndex("DayId");
 
                     b.ToTable("People");
                 });
 
-            modelBuilder.Entity("TaskDelegatingWebApp.Models.TaskAssignment", b =>
+            modelBuilder.Entity("TaskDelegatingWebApp.Models.TaskItem", b =>
                 {
-                    b.Property<int>("TaskItemId")
+                    b.Property<int>("DayId")
                         .HasColumnType("int");
 
                     b.Property<int>("PersonId")
                         .HasColumnType("int");
 
-                    b.Property<int>("DayId")
-                        .HasColumnType("int");
-
-                    b.HasKey("TaskItemId", "PersonId");
-
-                    b.HasIndex("DayId");
-
-                    b.HasIndex("PersonId");
-
-                    b.ToTable("TaskAssignment", (string)null);
-                });
-
-            modelBuilder.Entity("TaskDelegatingWebApp.Models.TaskItem", b =>
-                {
-                    b.Property<int>("TaskItemId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TaskItemId"));
-
-                    b.Property<int>("DayId")
-                        .HasColumnType("int");
-
                     b.Property<string>("TaskDescription")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TaskItemId")
+                        .HasColumnType("int");
 
                     b.Property<string>("TaskName")
                         .HasColumnType("nvarchar(max)");
@@ -140,101 +110,49 @@ namespace TaskDelegatingWebApp.Migrations
                     b.Property<int?>("TimeOfDay")
                         .HasColumnType("int");
 
-                    b.HasKey("TaskItemId");
+                    b.HasKey("DayId", "PersonId");
+
+                    b.HasIndex("PersonId");
 
                     b.ToTable("TaskItems");
                 });
 
-            modelBuilder.Entity("TaskDelegatingWebApp.Models.Week", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("WeekEnd")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("WeekStart")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Weeks");
-                });
-
-            modelBuilder.Entity("TaskDelegatingWebApp.Models.Day", b =>
-                {
-                    b.HasOne("TaskDelegatingWebApp.Models.TaskItem", null)
-                        .WithMany("Days")
-                        .HasForeignKey("TaskItemId");
-
-                    b.HasOne("TaskDelegatingWebApp.Models.Week", "Week")
-                        .WithMany("Days")
-                        .HasForeignKey("WeekID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Week");
-                });
-
             modelBuilder.Entity("TaskDelegatingWebApp.Models.Person", b =>
                 {
-                    b.HasOne("TaskDelegatingWebApp.Models.TaskItem", null)
-                        .WithMany("Persons")
-                        .HasForeignKey("TaskItemId");
+                    b.HasOne("TaskDelegatingWebApp.Models.Day", null)
+                        .WithMany("People")
+                        .HasForeignKey("DayId");
                 });
 
-            modelBuilder.Entity("TaskDelegatingWebApp.Models.TaskAssignment", b =>
+            modelBuilder.Entity("TaskDelegatingWebApp.Models.TaskItem", b =>
                 {
                     b.HasOne("TaskDelegatingWebApp.Models.Day", "Day")
-                        .WithMany("TaskAssignments")
+                        .WithMany("TaskItems")
                         .HasForeignKey("DayId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("TaskDelegatingWebApp.Models.Person", "Person")
-                        .WithMany("TaskAssignments")
+                        .WithMany("TaskItems")
                         .HasForeignKey("PersonId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TaskDelegatingWebApp.Models.TaskItem", "TaskItem")
-                        .WithMany("TaskAssignments")
-                        .HasForeignKey("TaskItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Day");
 
                     b.Navigation("Person");
-
-                    b.Navigation("TaskItem");
                 });
 
             modelBuilder.Entity("TaskDelegatingWebApp.Models.Day", b =>
                 {
-                    b.Navigation("TaskAssignments");
+                    b.Navigation("People");
+
+                    b.Navigation("TaskItems");
                 });
 
             modelBuilder.Entity("TaskDelegatingWebApp.Models.Person", b =>
                 {
-                    b.Navigation("TaskAssignments");
-                });
-
-            modelBuilder.Entity("TaskDelegatingWebApp.Models.TaskItem", b =>
-                {
-                    b.Navigation("Days");
-
-                    b.Navigation("Persons");
-
-                    b.Navigation("TaskAssignments");
-                });
-
-            modelBuilder.Entity("TaskDelegatingWebApp.Models.Week", b =>
-                {
-                    b.Navigation("Days");
+                    b.Navigation("TaskItems");
                 });
 #pragma warning restore 612, 618
         }

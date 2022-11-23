@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using TaskDelegatingWebApp.Data;
 using TaskDelegatingWebApp.Models;
-using TaskDelegatingWebApp.ViewModels;
 
 namespace TaskDelegatingWebApp.Controllers
 {
@@ -21,37 +20,12 @@ namespace TaskDelegatingWebApp.Controllers
         }
 
         // GET: People
-        public async Task<IActionResult> Index(int? id, int? taskItemId, int? dayId)
+        public async Task<IActionResult> Index()
         {
-            var viewModel = new PersonViewModel();
-            viewModel.People = await _context.People.Include(e => e.TaskAssignments)
-                .ThenInclude(e => e.TaskItem)
-                .AsNoTracking()
-                .OrderBy(e => e.Name).ToListAsync();
-
-
-            if (id != null)
-            {
-                ViewData["PersonId"] = id.Value;
-                Person person = viewModel.People.Where(e => e.PersonId == id.Value).Single();
-                viewModel.TaskItems = person.TaskAssignments.Select(e => e.TaskItem);
-
-            }
-            if (taskItemId != null)
-            {
-                ViewData["TaskItemId"] = taskItemId.Value;
-                viewModel.TaskAssignments = viewModel.TaskItems.Where(e => e.TaskItemId == taskItemId.Value).Single().TaskAssignments;
-                ViewData["TaskCount"] = viewModel.TaskItems.Where(e => e.TaskItemId == taskItemId.Value).ToArray().Count();
-
-            }
-
-
-
-
-
-            return View(viewModel);
+              return _context.People != null ? 
+                          View(await _context.People.ToListAsync()) :
+                          Problem("Entity set 'TaskDelegatingWebAppContext.People'  is null.");
         }
-
 
         // GET: People/Details/5
         public async Task<IActionResult> Details(int? id)

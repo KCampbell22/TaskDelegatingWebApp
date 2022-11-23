@@ -11,19 +11,17 @@ namespace TaskDelegatingWebApp.Data
 
         public DbSet<TaskItem> TaskItems { get; set; }
         public DbSet<Person> People { get; set; }
-        public DbSet<Week> Weeks { get; set; }
-        public DbSet<TaskAssignment> TaskAssignments { get; set; }
         public DbSet<Day> Days { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-           
-            modelBuilder.Entity<TaskAssignment>(entity =>
+
+            modelBuilder.Entity<TaskItem>(entity =>
             {
-                entity.HasKey(c => new { c.TaskItemId, c.PersonId, c.DayId});
-                entity.ToTable("TaskAssignment");
+                entity.HasKey(c => new { c.DayId, c.PersonId });
             });
+            
         }
     }
 }

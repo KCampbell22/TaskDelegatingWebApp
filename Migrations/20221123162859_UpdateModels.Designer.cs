@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TaskDelegatingWebApp.Data;
 
@@ -11,9 +12,11 @@ using TaskDelegatingWebApp.Data;
 namespace TaskDelegatingWebApp.Migrations
 {
     [DbContext(typeof(TaskDelegatingWebAppContext))]
-    partial class TaskDelegatingWebAppContextModelSnapshot : ModelSnapshot
+    [Migration("20221123162859_UpdateModels")]
+    partial class UpdateModels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -92,14 +95,14 @@ namespace TaskDelegatingWebApp.Migrations
                     b.Property<int>("DayId")
                         .HasColumnType("int");
 
+                    b.Property<int>("TaskItemId")
+                        .HasColumnType("int");
+
                     b.Property<int>("PersonId")
                         .HasColumnType("int");
 
                     b.Property<string>("TaskDescription")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("TaskItemId")
-                        .HasColumnType("int");
 
                     b.Property<string>("TaskName")
                         .HasColumnType("nvarchar(max)");
@@ -107,7 +110,7 @@ namespace TaskDelegatingWebApp.Migrations
                     b.Property<int?>("TimeOfDay")
                         .HasColumnType("int");
 
-                    b.HasKey("DayId", "PersonId");
+                    b.HasKey("DayId", "TaskItemId");
 
                     b.HasIndex("PersonId");
 

@@ -11,6 +11,12 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TaskItemId)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TaskItemId)
+        </dd>
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.TaskName)
         </dt>
         <dd class = "col-sm-10">
@@ -32,11 +38,17 @@
             @Html.DisplayNameFor(model => model.Day)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Day.DayName)
+            @Html.DisplayFor(model => model.Day.DayId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Person)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Person.Email)
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.TaskItemId">Edit</a> |
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
     <a asp-action="Index">Back to List</a>
 </div>

@@ -22,7 +22,7 @@ namespace TaskDelegatingWebApp.Controllers
         // GET: TaskItems
         public async Task<IActionResult> Index()
         {
-            var taskDelegatingWebAppContext = _context.TaskItems.Include(t => t.Day);
+            var taskDelegatingWebAppContext = _context.TaskItems.Include(t => t.Day).Include(t => t.Person);
             return View(await taskDelegatingWebAppContext.ToListAsync());
         }
 
@@ -36,7 +36,8 @@ namespace TaskDelegatingWebApp.Controllers
 
             var taskItem = await _context.TaskItems
                 .Include(t => t.Day)
-                .FirstOrDefaultAsync(m => m.TaskItemId == id);
+                .Include(t => t.Person)
+                .FirstOrDefaultAsync(m => m.DayId == id);
             if (taskItem == null)
             {
                 return NotFound();
@@ -49,6 +50,7 @@ namespace TaskDelegatingWebApp.Controllers
         public IActionResult Create()
         {
             ViewData["DayId"] = new SelectList(_context.Days, "DayId", "DayId");
+            ViewData["PersonId"] = new SelectList(_context.People, "PersonId", "Email");
             return View();
         }
 
@@ -57,7 +59,7 @@ namespace TaskDelegatingWebApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("TaskItemId,DayId,TaskName,TaskDescription,TimeOfDay")] TaskItem taskItem)
+        public async Task<IActionResult> Create([Bind("TaskItemId,TaskName,TaskDescription,TimeOfDay,DayId,PersonId")] TaskItem taskItem)
         {
             if (ModelState.IsValid)
             {
@@ -66,6 +68,7 @@ namespace TaskDelegatingWebApp.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["DayId"] = new SelectList(_context.Days, "DayId", "DayId", taskItem.DayId);
+            ViewData["PersonId"] = new SelectList(_context.People, "PersonId", "Email", taskItem.PersonId);
             return View(taskItem);
         }
 
@@ -83,6 +86,7 @@ namespace TaskDelegatingWebApp.Controllers
                 return NotFound();
             }
             ViewData["DayId"] = new SelectList(_context.Days, "DayId", "DayId", taskItem.DayId);
+            ViewData["PersonId"] = new SelectList(_context.People, "PersonId", "Email", taskItem.PersonId);
             return View(taskItem);
         }
 
@@ -91,9 +95,9 @@ namespace TaskDelegatingWebApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("TaskItemId,DayId,TaskName,TaskDescription,TimeOfDay")] TaskItem taskItem)
+        public async Task<IActionResult> Edit(int id, [Bind("TaskItemId,TaskName,TaskDescription,TimeOfDay,DayId,PersonId")] TaskItem taskItem)
         {
-            if (id != taskItem.TaskItemId)
+            if (id != taskItem.DayId)
             {
                 return NotFound();
             }
@@ -107,7 +111,7 @@ namespace TaskDelegatingWebApp.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!TaskItemExists(taskItem.TaskItemId))
+                    if (!TaskItemExists(taskItem.DayId))
                     {
                         return NotFound();
                     }
@@ -119,6 +123,7 @@ namespace TaskDelegatingWebApp.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["DayId"] = new SelectList(_context.Days, "DayId", "DayId", taskItem.DayId);
+            ViewData["PersonId"] = new SelectList(_context.People, "PersonId", "Email", taskItem.PersonId);
             return View(taskItem);
         }
 
@@ -132,7 +137,8 @@ namespace TaskDelegatingWebApp.Controllers
 
             var taskItem = await _context.TaskItems
                 .Include(t => t.Day)
-                .FirstOrDefaultAsync(m => m.TaskItemId == id);
+                .Include(t => t.Person)
+                .FirstOrDefaultAsync(m => m.DayId == id);
             if (taskItem == null)
             {
                 return NotFound();
@@ -162,7 +168,7 @@ namespace TaskDelegatingWebApp.Controllers
 
         private bool TaskItemExists(int id)
         {
-          return (_context.TaskItems?.Any(e => e.TaskItemId == id)).GetValueOrDefault();
+          return (_context.TaskItems?.Any(e => e.DayId == id)).GetValueOrDefault();
         }
     }
 }

@@ -22,8 +22,25 @@ namespace TaskDelegatingWebApp.Controllers
         // GET: Days
         public async Task<IActionResult> Index()
         {
-            var taskDelegatingWebAppContext = _context.Days.Include(d => d.Week);
-            return View(await taskDelegatingWebAppContext.ToListAsync());
+            var Days =  await _context.Days.Include(e => e.People).Include(e => e.TaskItems).ToListAsync();
+            var Monday = await _context.TaskItems.Where(e => e.Day.DayName == "Monday").ToListAsync();
+            var Tuesday = await _context.TaskItems.Where(e => e.Day.DayName == "Tuesday").ToListAsync();
+            var Wednesday = await _context.TaskItems.Where(e => e.Day.DayName == "Wednesday").ToListAsync();
+            var Thursday = await _context.TaskItems.Where(e => e.Day.DayName == "Thursday").ToListAsync();
+            var Friday = await _context.TaskItems.Where(e => e.Day.DayName == "Friday").ToListAsync();
+            var Saturday = await _context.TaskItems.Where(e => e.Day.DayName == "Saturday").ToListAsync();
+            var Sunday = await _context.TaskItems.Where(e => e.Day.DayName == "Sunday").ToListAsync();
+
+            ViewData["Monday"] = Monday;
+            ViewData["Tuesday"] = Tuesday;
+            ViewData["Wednesday"] = Wednesday;
+            ViewData["Thursday"] = Thursday;
+            ViewData["Friday"] = Friday;
+            ViewData["Saturday"] = Saturday;
+            ViewData["Sunday"] = Sunday;
+
+
+            return View(Days);
         }
 
         // GET: Days/Details/5
@@ -35,7 +52,6 @@ namespace TaskDelegatingWebApp.Controllers
             }
 
             var day = await _context.Days
-                .Include(d => d.Week)
                 .FirstOrDefaultAsync(m => m.DayId == id);
             if (day == null)
             {
@@ -48,7 +64,6 @@ namespace TaskDelegatingWebApp.Controllers
         // GET: Days/Create
         public IActionResult Create()
         {
-            ViewData["WeekID"] = new SelectList(_context.Weeks, "Id", "Id");
             return View();
         }
 
@@ -57,7 +72,7 @@ namespace TaskDelegatingWebApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("DayId,DayName,WeekID")] Day day)
+        public async Task<IActionResult> Create([Bind("DayId,DayName")] Day day)
         {
             if (ModelState.IsValid)
             {
@@ -65,7 +80,6 @@ namespace TaskDelegatingWebApp.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["WeekID"] = new SelectList(_context.Weeks, "Id", "Id", day.WeekID);
             return View(day);
         }
 
@@ -82,7 +96,6 @@ namespace TaskDelegatingWebApp.Controllers
             {
                 return NotFound();
             }
-            ViewData["WeekID"] = new SelectList(_context.Weeks, "Id", "Id", day.WeekID);
             return View(day);
         }
 
@@ -91,7 +104,7 @@ namespace TaskDelegatingWebApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("DayId,DayName,WeekID")] Day day)
+        public async Task<IActionResult> Edit(int id, [Bind("DayId,DayName")] Day day)
         {
             if (id != day.DayId)
             {
@@ -118,7 +131,6 @@ namespace TaskDelegatingWebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["WeekID"] = new SelectList(_context.Weeks, "Id", "Id", day.WeekID);
             return View(day);
         }
 
@@ -131,7 +143,6 @@ namespace TaskDelegatingWebApp.Controllers
             }
 
             var day = await _context.Days
-                .Include(d => d.Week)
                 .FirstOrDefaultAsync(m => m.DayId == id);
             if (day == null)
             {

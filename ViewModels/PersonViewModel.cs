@@ -1,20 +1,16 @@
-﻿using System;
-using System.Configuration;
+﻿using System.ComponentModel;
 using TaskDelegatingWebApp.Models;
+
 namespace TaskDelegatingWebApp.ViewModels
 {
 #nullable disable
-
     public class PersonViewModel
     {
+        [DisplayName("Name")]
+        public string PersonName { get; set; }
 
-        public IEnumerable<TaskItem> TaskItems { get; set; }
-        public IEnumerable<TaskAssignment> TaskAssignments { get; set; }
-        public IEnumerable<Person>People { get; set; }
-        public IEnumerable<Day> Days { get; set; }
-        public IEnumerable<Week> Weeks { get; set; }
-        
+
+        public ICollection<TaskItem> AssignedTasks { get; set; }
 
     }
 }
-

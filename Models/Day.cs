@@ -8,10 +8,8 @@ namespace TaskDelegatingWebApp.Models
         public int DayId { get; set; }
         public string DayName { get; set; }
 
-        public int WeekID { get; set; }
-        public Week Week { get; set; }
-
-        public ICollection<TaskAssignment> TaskAssignments { get; set; }
+        
+        public ICollection<TaskItem> TaskItems { get; set; }
         public ICollection<Person> People { get; set; }
 
         

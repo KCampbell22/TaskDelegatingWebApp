@@ -19,8 +19,7 @@ namespace TaskDelegatingWebApp.Models
         public bool Saturday { get; set;}
         public bool Sunday { get; set;}
 
-        public ICollection<TaskAssignment> TaskAssignments { get; set;}
-
+        public ICollection<TaskItem> TaskItems { get; set;}
       
 
        
