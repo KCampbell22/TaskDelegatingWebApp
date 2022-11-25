@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using TaskDelegatingWebApp.Data;
 using TaskDelegatingWebApp.Models;
+using TaskDelegatingWebApp.ViewModels;
 
 namespace TaskDelegatingWebApp.Controllers
 {
@@ -20,27 +21,27 @@ namespace TaskDelegatingWebApp.Controllers
         }
 
         // GET: Days
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? id, int? personId)
         {
-            var Days =  await _context.Days.Include(e => e.People).Include(e => e.TaskItems).ToListAsync();
-            var Monday = await _context.TaskItems.Where(e => e.Day.DayName == "Monday").ToListAsync();
-            var Tuesday = await _context.TaskItems.Where(e => e.Day.DayName == "Tuesday").ToListAsync();
-            var Wednesday = await _context.TaskItems.Where(e => e.Day.DayName == "Wednesday").ToListAsync();
-            var Thursday = await _context.TaskItems.Where(e => e.Day.DayName == "Thursday").ToListAsync();
-            var Friday = await _context.TaskItems.Where(e => e.Day.DayName == "Friday").ToListAsync();
-            var Saturday = await _context.TaskItems.Where(e => e.Day.DayName == "Saturday").ToListAsync();
-            var Sunday = await _context.TaskItems.Where(e => e.Day.DayName == "Sunday").ToListAsync();
+            var viewModel = new WeekViewModel();
+            viewModel.Days = await _context.Days.Include(e => e.People).Include(e => e.TaskItems).ToListAsync();
 
-            ViewData["Monday"] = Monday;
-            ViewData["Tuesday"] = Tuesday;
-            ViewData["Wednesday"] = Wednesday;
-            ViewData["Thursday"] = Thursday;
-            ViewData["Friday"] = Friday;
-            ViewData["Saturday"] = Saturday;
-            ViewData["Sunday"] = Sunday;
+            if(id != null)
+            {
+                ViewData["DayId"] = id.Value;
+                Day day = viewModel.Days.Where(e => e.DayId == id.Value).Single();
 
+                viewModel.People = day.TaskItems.Select(e => e.Person);
+            }
 
-            return View(Days);
+            if (personId != null)
+            {
+                Person person = viewModel.People.Where(e => e.PersonId == personId.Value).Single();
+                viewModel.Items = viewModel.People.Where(e => e.PersonId == personId.Value).Single().TaskItems;
+                viewModel.Items = viewModel.People.SelectMany(e => e.TaskItems);
+            }
+
+            return View(viewModel);
         }
 
         // GET: Days/Details/5
