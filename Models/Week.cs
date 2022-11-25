@@ -2,8 +2,9 @@
 {
     public class Week
     {
-        public DateOnly WeekStart { get; set; }
-        public DateOnly WeekEnd { get; set;
+        public int Id { get; set; }
+        public DateTime WeekStart { get; set; }
+        public DateTime WeekEnd { get; set;
         }
     }
 }

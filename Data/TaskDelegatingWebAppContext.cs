@@ -12,7 +12,7 @@ namespace TaskDelegatingWebApp.Data
         public DbSet<TaskItem> TaskItems { get; set; }
         public DbSet<Person> People { get; set; }
         public DbSet<Day> Days { get; set; }
-        
+        public DbSet<Week> Weeks { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
