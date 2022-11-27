@@ -5,6 +5,11 @@ namespace TaskDelegatingWebApp.Models
 {
     public class Day
     {
+        public Day()
+        {
+            TaskItems = new HashSet<TaskItem>();
+            People = new HashSet<Person>();
+        }
         public int DayId { get; set; }
         public string DayName { get; set; }
 

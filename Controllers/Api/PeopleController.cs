@@ -6,6 +6,9 @@ using TaskDelegatingWebApp.Data;
 using System.Net;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Protocol;
+using System.Text.Json;
+using AutoMapper;
+using TaskDelegatingWebApp.Dtos;
 
 namespace TaskDelegatingWebApp.Controllers.Api
 {
@@ -13,17 +16,23 @@ namespace TaskDelegatingWebApp.Controllers.Api
     [ApiController]
     public class PeopleApiController : Controller
     {
-        private TaskDelegatingWebAppContext _context;
-        public PeopleApiController(TaskDelegatingWebAppContext context) 
+        private readonly TaskDelegatingWebAppContext _context;
+        private readonly IMapper _mapper;
+        public PeopleApiController(TaskDelegatingWebAppContext context, IMapper mapper) 
         {
             _context = context;
-            
+            _mapper = mapper;
         }
 
         // GET /api/people
-        public IEnumerable<Person> GetPeople()
+        public IEnumerable<PersonDto> GetPeople()
         {
-            return _context.Person.ToList();
+
+
+
+
+            return _context.Person.Include(e => e.TaskItems).ToList().Select(_mapper.Map<Person, PersonDto>);
+
         }
 
         // Get /api/person/1
