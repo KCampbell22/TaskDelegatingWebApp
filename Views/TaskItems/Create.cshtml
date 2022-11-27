@@ -22,7 +22,11 @@
                 <input asp-for="TaskDescription" class="form-control" />
                 <span asp-validation-for="TaskDescription" class="text-danger"></span>
             </div>
-           @Html.DropDownList("TimeOfDay", Html.GetEnumSelectList<TimeOfDay>(), "Time of Day", new {@class="form-control mt-3 mb-3"})
+            <div class="form-group">
+                <label asp-for="TimeOfDay" class="control-label"></label>
+                <input asp-for="TimeOfDay" class="form-control" />
+                <span asp-validation-for="TimeOfDay" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="DayId" class="control-label"></label>
                 <select asp-for="DayId" class ="form-control" asp-items="ViewBag.DayId"></select>

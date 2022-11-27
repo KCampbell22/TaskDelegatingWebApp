@@ -1,7 +1,9 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using TaskDelegatingWebApp.Data;
 
 var builder = WebApplication.CreateBuilder(args);
+
 
 builder.Services.AddDbContext<TaskDelegatingWebAppContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("appDB")));
 
