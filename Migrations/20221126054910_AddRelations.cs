@@ -1,30 +1,52 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace TaskDelegatingWebApp.Migrations
 {
     /// <inheritdoc />
-    public partial class HasKeyNoMore : Migration
+    public partial class AddRelations : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Days",
+                name: "Week",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    WeekStart = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    WeekEnd = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Week", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Day",
                 columns: table => new
                 {
                     DayId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    DayName = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    DayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    WeekId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Days", x => x.DayId);
+                    table.PrimaryKey("PK_Day", x => x.DayId);
+                    table.ForeignKey(
+                        name: "FK_Day_Week_WeekId",
+                        column: x => x.WeekId,
+                        principalTable: "Week",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "People",
+                name: "Person",
                 columns: table => new
                 {
                     PersonId = table.Column<int>(type: "int", nullable: false)
@@ -42,16 +64,16 @@ namespace TaskDelegatingWebApp.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_People", x => x.PersonId);
+                    table.PrimaryKey("PK_Person", x => x.PersonId);
                     table.ForeignKey(
-                        name: "FK_People_Days_DayId",
+                        name: "FK_Person_Day_DayId",
                         column: x => x.DayId,
-                        principalTable: "Days",
+                        principalTable: "Day",
                         principalColumn: "DayId");
                 });
 
             migrationBuilder.CreateTable(
-                name: "TaskItems",
+                name: "TaskItem",
                 columns: table => new
                 {
                     TaskItemId = table.Column<int>(type: "int", nullable: false)
@@ -64,34 +86,39 @@ namespace TaskDelegatingWebApp.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TaskItems", x => x.TaskItemId);
+                    table.PrimaryKey("PK_TaskItem", x => x.TaskItemId);
                     table.ForeignKey(
-                        name: "FK_TaskItems_Days_DayId",
+                        name: "FK_TaskItem_Day_DayId",
                         column: x => x.DayId,
-                        principalTable: "Days",
+                        principalTable: "Day",
                         principalColumn: "DayId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_TaskItems_People_PersonId",
+                        name: "FK_TaskItem_Person_PersonId",
                         column: x => x.PersonId,
-                        principalTable: "People",
+                        principalTable: "Person",
                         principalColumn: "PersonId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_People_DayId",
-                table: "People",
+                name: "IX_Day_WeekId",
+                table: "Day",
+                column: "WeekId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Person_DayId",
+                table: "Person",
                 column: "DayId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TaskItems_DayId",
-                table: "TaskItems",
+                name: "IX_TaskItem_DayId",
+                table: "TaskItem",
                 column: "DayId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TaskItems_PersonId",
-                table: "TaskItems",
+                name: "IX_TaskItem_PersonId",
+                table: "TaskItem",
                 column: "PersonId");
         }
 
@@ -99,13 +126,16 @@ namespace TaskDelegatingWebApp.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "TaskItems");
+                name: "TaskItem");
 
             migrationBuilder.DropTable(
-                name: "People");
+                name: "Person");
 
             migrationBuilder.DropTable(
-                name: "Days");
+                name: "Day");
+
+            migrationBuilder.DropTable(
+                name: "Week");
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿@model TaskDelegatingWebApp.Models.Day
+﻿@model TaskDelegatingWebApp.Models.Week
 
 @{
     ViewData["Title"] = "Details";
@@ -7,24 +7,24 @@
 <h1>Details</h1>
 
 <div>
-    <h4>Day</h4>
+    <h4>Week</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DayName)
+            @Html.DisplayNameFor(model => model.WeekStart)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DayName)
+            @Html.DisplayFor(model => model.WeekStart)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Week)
+            @Html.DisplayNameFor(model => model.WeekEnd)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Week.Id)
+            @Html.DisplayFor(model => model.WeekEnd)
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.DayId">Edit</a> |
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>

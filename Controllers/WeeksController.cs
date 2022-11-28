@@ -10,85 +10,85 @@ using TaskDelegatingWebApp.Models;
 
 namespace TaskDelegatingWebApp.Controllers
 {
-    public class PeopleController : Controller
+    public class WeeksController : Controller
     {
         private readonly TaskDelegatingWebAppContext _context;
 
-        public PeopleController(TaskDelegatingWebAppContext context)
+        public WeeksController(TaskDelegatingWebAppContext context)
         {
             _context = context;
         }
 
-        // GET: People
+        // GET: Weeks
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Person.ToListAsync());
+              return View(await _context.Week.ToListAsync());
         }
 
-        // GET: People/Details/5
+        // GET: Weeks/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Person == null)
+            if (id == null || _context.Week == null)
             {
                 return NotFound();
             }
 
-            var person = await _context.Person
-                .FirstOrDefaultAsync(m => m.PersonId == id);
-            if (person == null)
+            var week = await _context.Week
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (week == null)
             {
                 return NotFound();
             }
 
-            return View(person);
+            return View(week);
         }
 
-        // GET: People/Create
+        // GET: Weeks/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: People/Create
+        // POST: Weeks/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PersonId,Name,Email,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday")] Person person)
+        public async Task<IActionResult> Create([Bind("Id,WeekStart,WeekEnd")] Week week)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(person);
+                _context.Add(week);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(person);
+            return View(week);
         }
 
-        // GET: People/Edit/5
+        // GET: Weeks/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Person == null)
+            if (id == null || _context.Week == null)
             {
                 return NotFound();
             }
 
-            var person = await _context.Person.FindAsync(id);
-            if (person == null)
+            var week = await _context.Week.FindAsync(id);
+            if (week == null)
             {
                 return NotFound();
             }
-            return View(person);
+            return View(week);
         }
 
-        // POST: People/Edit/5
+        // POST: Weeks/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PersonId,Name,Email,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday")] Person person)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,WeekStart,WeekEnd")] Week week)
         {
-            if (id != person.PersonId)
+            if (id != week.Id)
             {
                 return NotFound();
             }
@@ -97,12 +97,12 @@ namespace TaskDelegatingWebApp.Controllers
             {
                 try
                 {
-                    _context.Update(person);
+                    _context.Update(week);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PersonExists(person.PersonId))
+                    if (!WeekExists(week.Id))
                     {
                         return NotFound();
                     }
@@ -113,49 +113,49 @@ namespace TaskDelegatingWebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(person);
+            return View(week);
         }
 
-        // GET: People/Delete/5
+        // GET: Weeks/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Person == null)
+            if (id == null || _context.Week == null)
             {
                 return NotFound();
             }
 
-            var person = await _context.Person
-                .FirstOrDefaultAsync(m => m.PersonId == id);
-            if (person == null)
+            var week = await _context.Week
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (week == null)
             {
                 return NotFound();
             }
 
-            return View(person);
+            return View(week);
         }
 
-        // POST: People/Delete/5
+        // POST: Weeks/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Person == null)
+            if (_context.Week == null)
             {
-                return Problem("Entity set 'TaskDelegatingWebAppContext.Person'  is null.");
+                return Problem("Entity set 'TaskDelegatingWebAppContext.Week'  is null.");
             }
-            var person = await _context.Person.FindAsync(id);
-            if (person != null)
+            var week = await _context.Week.FindAsync(id);
+            if (week != null)
             {
-                _context.Person.Remove(person);
+                _context.Week.Remove(week);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool PersonExists(int id)
+        private bool WeekExists(int id)
         {
-          return _context.Person.Any(e => e.PersonId == id);
+          return _context.Week.Any(e => e.Id == id);
         }
     }
 }

@@ -13,9 +13,6 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.TaskItemId)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.TaskName)
             </th>
             <th>
@@ -37,9 +34,6 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.TaskItemId)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.TaskName)
             </td>
             <td>
@@ -55,9 +49,9 @@
                 @Html.DisplayFor(modelItem => item.Person.Email)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.TaskItemId }) |
-                @Html.ActionLink("Details", "Details", new {  id=item.TaskItemId }) |
-                @Html.ActionLink("Delete", "Delete", new { id=item.TaskItemId })
+                <a asp-action="Edit" asp-route-id="@item.TaskItemId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.TaskItemId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.TaskItemId">Delete</a>
             </td>
         </tr>
 }

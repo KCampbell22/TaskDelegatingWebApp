@@ -4,6 +4,11 @@ namespace TaskDelegatingWebApp.Models
 {
     public class Person
     {
+        public Person() 
+        {
+            TaskItems = new HashSet<TaskItem>();
+        }
+
         public int PersonId { get; set; }
         [Required]
         [StringLength(255)]

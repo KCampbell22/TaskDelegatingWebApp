@@ -33,9 +33,14 @@ namespace TaskDelegatingWebApp.Migrations
                     b.Property<string>("DayName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("WeekId")
+                        .HasColumnType("int");
+
                     b.HasKey("DayId");
 
-                    b.ToTable("Days");
+                    b.HasIndex("WeekId");
+
+                    b.ToTable("Day");
                 });
 
             modelBuilder.Entity("TaskDelegatingWebApp.Models.Person", b =>
@@ -84,7 +89,7 @@ namespace TaskDelegatingWebApp.Migrations
 
                     b.HasIndex("DayId");
 
-                    b.ToTable("People");
+                    b.ToTable("Person");
                 });
 
             modelBuilder.Entity("TaskDelegatingWebApp.Models.TaskItem", b =>
@@ -116,7 +121,37 @@ namespace TaskDelegatingWebApp.Migrations
 
                     b.HasIndex("PersonId");
 
-                    b.ToTable("TaskItems");
+                    b.ToTable("TaskItem");
+                });
+
+            modelBuilder.Entity("TaskDelegatingWebApp.Models.Week", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("WeekEnd")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("WeekStart")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Week");
+                });
+
+            modelBuilder.Entity("TaskDelegatingWebApp.Models.Day", b =>
+                {
+                    b.HasOne("TaskDelegatingWebApp.Models.Week", "Week")
+                        .WithMany("Days")
+                        .HasForeignKey("WeekId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Week");
                 });
 
             modelBuilder.Entity("TaskDelegatingWebApp.Models.Person", b =>
@@ -155,6 +190,11 @@ namespace TaskDelegatingWebApp.Migrations
             modelBuilder.Entity("TaskDelegatingWebApp.Models.Person", b =>
                 {
                     b.Navigation("TaskItems");
+                });
+
+            modelBuilder.Entity("TaskDelegatingWebApp.Models.Week", b =>
+                {
+                    b.Navigation("Days");
                 });
 #pragma warning restore 612, 618
         }

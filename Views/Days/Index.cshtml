@@ -1,6 +1,7 @@
-﻿@model TaskDelegatingWebApp.ViewModels.WeekViewModel;
+﻿@model IEnumerable<TaskDelegatingWebApp.Models.Day>
+
 @{
-    ViewData["Title"] = "Days";
+    ViewData["Title"] = "Index";
 }
 
 <h1>Index</h1>
@@ -12,36 +13,24 @@
     <thead>
         <tr>
             <th>
-                Days
+                @Html.DisplayNameFor(model => model.DayName)
             </th>
             <th>
-                Tasks
+                @Html.DisplayNameFor(model => model.Week)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Days) {
-            Day dayItem = new Day();
-            string selectedRow = "";
-            @if(item.DayId == (int?)ViewData["DayId"])
-            {
-                selectedRow = "table-success";
-            }
-
-            <tr class="@selectedRow">
+@foreach (var item in Model) {
+        <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.DayName)
             </td>
-                 <td>
-                 
-                    @foreach(TaskItem task in item.TaskItems)
-                    {
-
-                    @task.TaskName
-                    }
-               
-                <td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Week.Id)
+            </td>
+            <td>
                 <a asp-action="Edit" asp-route-id="@item.DayId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.DayId">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.DayId">Delete</a>

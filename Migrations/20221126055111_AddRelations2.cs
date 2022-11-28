@@ -5,7 +5,7 @@
 namespace TaskDelegatingWebApp.Migrations
 {
     /// <inheritdoc />
-    public partial class DBGenerated : Migration
+    public partial class AddRelations2 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

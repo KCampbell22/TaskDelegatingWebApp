@@ -1,0 +1,9 @@
+﻿namespace TaskDelegatingWebApp.Dtos
+{
+    public class WeeksDto
+    {
+        public int Id { get; set; }
+        public DateTime WeekStart { get; set; }
+        public DateTime WeekEnd { get; set; }
+    }
+}
