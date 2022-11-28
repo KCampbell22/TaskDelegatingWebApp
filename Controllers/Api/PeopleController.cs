@@ -36,16 +36,16 @@ namespace TaskDelegatingWebApp.Controllers.Api
         }
 
         // Get /api/person/1
-        [Route("api/[controller]/GetPerson={id}")]
-        public Person GetPerson(int id)
+        [Route("/api/[controller]/{id}")]
+        public PersonDto GetPerson(int id)
         {
-            var person = _context.Person.SingleOrDefault(c => c.PersonId == id);
+            var person = _context.Person.Include(e => e.TaskItems).SingleOrDefault(c => c.PersonId == id);
 
             if (person == null)
             {
                 throw new HttpRequestException(HttpStatusCode.NotFound.ToString());
             }
-            return person;
+            return _mapper.Map<Person, PersonDto>(person);
 
         }
 
