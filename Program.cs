@@ -4,6 +4,7 @@ using System.Web;
 using TaskDelegatingWebApp.Data;
 using AutoMapper.Internal.Mappers;
 using AutoMapper;
+using NuGet.Protocol;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,13 +15,23 @@ builder.Services.AddDbContext<TaskDelegatingWebAppContext>(options => options.Us
 
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
-builder.Services.AddMvc().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+builder.Services.AddMvc().AddNewtonsoftJson(options => {
+
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+    options.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
+});
 
 // Add services to the container.
 builder.Services.AddControllersWithViews().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.PropertyNamingPolicy = null;
+    options.JsonSerializerOptions.WriteIndented = true;
 
+});
+
+builder.Services.AddControllers(e =>
+{
+    e.RespectBrowserAcceptHeader = true;
 });
 
 var app = builder.Build();

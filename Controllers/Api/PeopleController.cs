@@ -53,15 +53,16 @@ namespace TaskDelegatingWebApp.Controllers.Api
         // POST /api/person/1
         [Route("api/[controller]/CreatePerson")]
         [HttpPost]
-        public Person CreatePerson(Person person)
+        public PersonDto CreatePerson(PersonDto personDto)
         {
             if (!ModelState.IsValid)
             
                 throw new HttpRequestException(HttpStatusCode.BadRequest.ToString());
-            
+            var person = _mapper.Map<PersonDto, Person>(personDto);
             _context.Person.Add(person);
             _context.SaveChanges();
-            return person;
+            personDto.PersonId = person.PersonId;
+            return personDto;
         }
 
 
