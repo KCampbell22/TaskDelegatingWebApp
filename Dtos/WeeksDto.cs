@@ -9,5 +9,6 @@ namespace TaskDelegatingWebApp.Dtos
         public DateTime WeekEnd { get; set; }
 
         public ICollection<Day> Days { get; set; }
+        public ICollection<Person> People { get; set; }
     }
 }

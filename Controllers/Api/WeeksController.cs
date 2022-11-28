@@ -30,11 +30,11 @@ namespace TaskDelegatingWebApp.Controllers.Api
         // GET /api/weeks
         public IEnumerable<WeeksDto> GetWeeks()
         {
+             
 
 
 
-
-            return _context.Week.Include(e => e.Days).ThenInclude(e => e.People).ThenInclude(e => e.TaskItems).ToList().Select(_mapper.Map<Week, WeeksDto>);
+            return _context.Week.Include(e => e.Days).ThenInclude(e => e.TaskItems).ToList().Select(_mapper.Map<Week, WeeksDto>);
 
         }
 

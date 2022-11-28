@@ -41,7 +41,7 @@ namespace TaskDelegatingWebApp.Controllers.Api
         [Route("/api/[controller]/{id}")]
         public TaskItemDto GetTask(int id)
         {
-            var task = _context.TaskItem.Include(e => e.Day).Include(e => e.Person).SingleOrDefault(c => c.TaskItemId == id);
+            var task = _context.TaskItem.Include(e => e.Day).ThenInclude(e => e.TaskItems.Select(b => b.Person)).SingleOrDefault(c => c.TaskItemId == id);
 
             if (task == null)
             {
@@ -70,9 +70,9 @@ namespace TaskDelegatingWebApp.Controllers.Api
         }
 
 
-        // PUT /api/tasks/1
+        // PUT /api/person/1
 
-        [Route("api/[controller]/UpdateTask/{id}")]
+        [Route("api/[controller]/UpdateTask={id}")]
         public void UpdateTask(int id, TaskItemDto taskDto)
         {
             if (!ModelState.IsValid)
@@ -93,15 +93,15 @@ namespace TaskDelegatingWebApp.Controllers.Api
         }
 
         // DELETE /api/customers/1
-        [Route("api/[controller]/Delete/{id}")]
+        [Route("api/[controller]/Delete={id}")]
         [HttpDelete]
         public void DetleteTask(int id)
         {
-            var taskitemindb = _context.TaskItem.SingleOrDefault(c => c.TaskItemId == id);
-            if (taskitemindb == null)
+            var personInDb = _context.TaskItem.SingleOrDefault(c => c.TaskItemId == id);
+            if (personInDb == null)
                 throw new Exception(HttpStatusCode.NotFound.ToString());
 
-            _context.TaskItem.Remove(taskitemindb);
+            _context.TaskItem.Remove(personInDb);
         }
 
     }

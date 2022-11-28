@@ -34,9 +34,7 @@ namespace TaskDelegatingWebApp.Controllers.Api
 
 
             return _context.Day.Include(e => e.Week)
-                .Include(e => e.TaskItems)
-                .ThenInclude(e => e.Person)
-                .ThenInclude(e => e.TaskItems)
+                .Include(e => e.TaskItems.Select(c => c.Day))
                 .Include(e => e.People)
                 .ToList()
                 .Select(_mapper.Map<Day, DaysDto>);

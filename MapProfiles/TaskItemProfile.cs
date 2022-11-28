@@ -12,6 +12,8 @@ namespace TaskDelegatingWebApp.MapProfiles
             CreateMap<TaskItem, TaskItemDto>().ForMember(mem => mem.Day, o => o.MapFrom(e => e.Day))
                 .ForMember(e => e.Person, o => o.MapFrom(e => e.Person))
                 .ReverseMap();
+
+           
         }
     }
 }
