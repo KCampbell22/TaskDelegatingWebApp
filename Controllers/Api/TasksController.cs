@@ -41,7 +41,7 @@ namespace TaskDelegatingWebApp.Controllers.Api
         [Route("/api/[controller]/{id}")]
         public TaskItemDto GetTask(int id)
         {
-            var task = _context.TaskItem.Include(e => e.Day).ThenInclude(e => e.TaskItems.Select(b => b.Person)).SingleOrDefault(c => c.TaskItemId == id);
+            var task = _context.TaskItem.Include(e => e.Day).Include(e => e.Person).ToList().SingleOrDefault(c => c.TaskItemId == id);
 
             if (task == null)
             {

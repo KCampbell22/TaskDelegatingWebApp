@@ -8,7 +8,13 @@ namespace TaskDelegatingWebApp.MapProfiles
     {
         public PersonProfile()
         {
-            CreateMap<Person, PersonDto>().ForMember(m => m.TaskItems, o => o.MapFrom(e => e.TaskItems)).ReverseMap();
+            CreateMap<Person, PersonDto>().ForMember(m => m.TaskItems, o => o.MapFrom(e => e.TaskItems));
+
+            CreateMap<TaskItem, TaskItemDto>().ForMember(dto =>
+                dto.PersonId, opt => opt.MapFrom(src => src.Person));
+            CreateMap<TaskItemDto, TaskItem>();
+
+            CreateMap<PersonDto, Person>();
         }
     }
 }

@@ -1,8 +1,37 @@
-﻿@{
+﻿@model TaskDelegatingWebApp.Dtos.DaysDto;
+
+@{
     ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+    <div id="test">
+
+    </div>
+    </div>
+
+@section Scripts{
+    <script>
+       
+           
+        $(document).ready(function (data){
+           
+                $.ajax({
+           type: 'GET',
+            url: 'https://localhost:7148/api/days/1',
+            dataType: "json",
+            success: function(response) {
+                
+               
+                $("#test").text(response.dayName)
+                },
+            })
+           
+        })
+      
+       
+    </script>
+}

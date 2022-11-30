@@ -25,8 +25,7 @@ namespace TaskDelegatingWebApp.Models
         public bool Sunday { get; set;}
 
         public ICollection<TaskItem> TaskItems { get; set;}
-      
-
+  
        
     }
 }
