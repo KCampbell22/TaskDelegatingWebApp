@@ -7,7 +7,86 @@
 
     
         <div id="week" class="row bg-light w-100">
+            <div class="day col d-flex flex-column bg-secondary border-1 border-end">
+                <p class="dayname"</p>
+                <div class="morning">
 
+                </div>
+                <div class="afternoon">
+
+                </div>
+                <div class="night">
+
+                </div>
+            </div>
+            <div class="day col d-flex flex-column bg-secondary border-1 border-end">
+                                <p class="dayname"</p>
+
+                <div class="morning">
+
+                </div>
+                <div class="afternoon">
+
+                </div>
+                <div class="night">
+
+                </div>
+            </div>
+            <div class="day col d-flex flex-column bg-secondary border-1 border-end">
+                <div class="morning">
+
+                </div>
+                <div class="afternoon">
+
+                </div>
+                <div class="night">
+
+                </div>
+            </div>
+            <div class="day col d-flex flex-column bg-secondary border-1 border-end">
+                <div class="morning">
+
+                </div>
+                <div class="afternoon">
+
+                </div>
+                <div class="night">
+
+                </div>
+            </div>
+            <div class="day col d-flex flex-column bg-secondary border-1 border-end">
+                <div class="morning">
+
+                </div>
+                <div class="afternoon">
+
+                </div>
+                <div class="night">
+
+                </div>
+            </div>
+            <div class="day col d-flex flex-column bg-secondary border-1 border-end">
+                <div class="morning">
+
+                </div>
+                <div class="afternoon">
+
+                </div>
+                <div class="night">
+
+                </div>
+            </div>
+            <div class="day col d-flex flex-column bg-secondary border-1 border-end">
+                <div class="morning">
+
+                </div>
+                <div class="afternoon">
+
+                </div>
+                <div class="night">
+
+                </div>
+            </div>
         </div>
 
 
@@ -23,18 +102,49 @@
                 type: "GET",
                 url: "https://localhost:7148/api/days",
                 dataType: "json",
-                data: { data: JSON.stringify() },
-                success: function (obj) {
-                    let obj = 
+                success: function (response) {
+                    var responseJson = JSON.stringify(response)
                     var calanderDay = "";
-                    $.each(obj.data, function (key, day) {
-                        $.each(day.taskItems, function (k, task) {
-                            console.log(day.dayName + "\n" + task.taskName);
+                    var week = $('#week')
+
+                    var dayNames = [];
+                    $.each(response, function(i, day){
+                        $.each(this.taskItems, function(j, task){
+                                if (day.TaskItems.size() == 0){
+                                    calanderDay += `<div class="col d-fles-flex flex-col">
+                                                        <p>${day.dayName}M</p>
+                                                        <p>No tasks!</p>
+                                                    </div>`;
+                                }
+                                else{
+                                    calanderDay += `<div class="col d-fles-flex flex-col">
+                                                        <p>${day.dayName}M</p>
+                                                        <p>${task.taskName}</p>
+                                                    </div>`;
+                                }
+
+                                                    
+                                                    
+                                                                        $(week).html(calanderDay);
+
                         })
-                    })
+                    });
+
+                   /*
+                    for(var i = 0; i < responseJson.length; i++){
+                        for(var j = 0; j < responseJson.taskItems.length; j++){
+                            calanderDay += `
+                                            <div>
+                                                    <p>${responseJson.days[i].dayName}</p>
+                                                    <p>${responseJson.days.taskItems[j].taskName}
+
+                                            </div>
+                                            `
+                        }
+                    }
                     //   var week = $("#week");
                     //console.log(data
-
+                    */
                 },
             });
         });
