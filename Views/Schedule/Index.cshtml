@@ -1,0 +1,55 @@
+﻿@*
+
+*@
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="/test/wp-content/themes/child/script/jquery.jcarousel.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div class="container-fluid">
+        <div id="week" class="row bg-light w-100">
+        </div>
+
+    </div>
+</body>
+<script type="text/javascript" src="/test/wp-content/themes/child/script/jquery.jcarousel.min.js"></script>
+
+<script>
+
+
+    $(document).ready(function () {
+        $.ajax({
+            type: "GET",
+            url: "https://localhost:7148/api/days",
+            dataType: "json",
+            data: { dayName: 'dayName' },
+            success: function (data) {
+                var calanderDay = "";
+                var week = $("#week");
+                $.each(data, function (i, day) {
+                    var weekStr = `<div class="col d-flex flex-column bg-info b-1">
+                              <h1> ${day.dayName} </h1>
+                           </div>`;
+
+                    $(week).append(weekStr);
+                });
+            },
+        });
+    });
+
+
+
+</script>
+</html>
+
+
+    
+

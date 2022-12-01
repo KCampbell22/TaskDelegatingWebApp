@@ -2,35 +2,43 @@
 
 @{
     ViewData["Title"] = "Home Page";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-    <div id="test">
 
-    </div>
-    </div>
+    
+        <div id="week" class="row bg-light w-100">
+
+        </div>
+
+
+    
 
 @section Scripts{
     <script>
-       
-           
-        $(document).ready(function (data){
-           
-                $.ajax({
-           type: 'GET',
-            url: 'https://localhost:7148/api/days/1',
-            dataType: "json",
-            success: function(response) {
-                
-               
-                $("#test").text(response.dayName)
+
+
+
+        $(document).ready(function () {
+            $.ajax({
+                type: "GET",
+                url: "https://localhost:7148/api/days",
+                dataType: "json",
+                data: { data: JSON.stringify() },
+                success: function (obj) {
+                    let obj = 
+                    var calanderDay = "";
+                    $.each(obj.data, function (key, day) {
+                        $.each(day.taskItems, function (k, task) {
+                            console.log(day.dayName + "\n" + task.taskName);
+                        })
+                    })
+                    //   var week = $("#week");
+                    //console.log(data
+
                 },
-            })
-           
-        })
+            });
+        });
+
       
        
     </script>
