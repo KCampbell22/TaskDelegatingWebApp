@@ -14,4 +14,7 @@ namespace TaskDelegatingWebApp.Dtos
         
         public ICollection<TaskItem> TaskItems { get; set; }
     }
+
+
+    public List<TaskItemDto>
 }

@@ -22,7 +22,7 @@ namespace TaskDelegatingWebApp.Controllers
         // GET: Days
         public async Task<IActionResult> Index()
         {
-            var taskDelegatingWebAppContext = _context.Day.Include(d => d.Week);
+            var taskDelegatingWebAppContext = _context.Day.Include(d => d.Week).Include(e => e.TaskItems);
             return View(await taskDelegatingWebAppContext.ToListAsync());
         }
 
