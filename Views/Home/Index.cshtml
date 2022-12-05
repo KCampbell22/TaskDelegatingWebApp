@@ -32,8 +32,9 @@
 
                     $.each(responseParse, function (index, day) {
                         if (day.taskItems.length === 0) {
-                            calanderDay += `<div class="col flex-column d-flex">
-                                                                            <h2>${day.dayName}</h2>
+                            calanderDay += `<div class="col border-1 border-end border-secondary flex-column d-flex">
+                                                                            <h2 class="">${day.dayName}</h2>
+                                                                            <hr>
                                                                             <ul class="list-group">
                                                                                <li class="list-group-item">No tasks</li>
                                                                             <ul>
@@ -41,8 +42,10 @@
 
                         }
                         else {
-                            calanderDay += `<div class="col flex-column d-flex">
-                                                                                    <h2>${day.dayName}</h2>`;
+                            calanderDay += `<div class="col border-1 border-end border-secondary
+                            flex-column d-flex">
+                                                                                    <h2>${day.dayName}</h2>
+                                                                                    <hr>`;
                         }
                                     
                             $.each(this.taskItems, function (i, task) {
@@ -50,28 +53,29 @@
                                 
 
                                 if (task.timeOfDay === 0) {
-                                    calanderDay += `
+                                    calanderDay += `<div class="d-flex flex-column">
                                                                     <ul class="list-group">
-                                                                       <li class="list-group-item">${task.taskName} - Morning</a></li>
+                                                                               <li class="mb-1 mt-1 list-group-item">${task.taskName} - Morning</a></li>
                                                                     <ul>
-                                                                    `
+                                                                    </div>`
 
                                 }
                                 else if (task.timeOfDay === 1) {
                                     calanderDay +=
-                                    `
+                                    `<div class="d-flex flex-column">
                                                                             <ul class="list-group">
-                                                                               <li class="list-group-item">${task.taskName} - Afternoon</a></li>
+                                                                                       <li class="mb-1 mt-1 list-group-item">${task.taskName} - Afternoon</a></li>
                                                                             <ul>
-                                                                            `;
+                                                                                    </div>`;
 
                                 }
                                 else if (task.timeOfDay === 2) {
                                     calanderDay +=
-                                                        `
+                                                        `<div class="d-flex flex-column">
                                                                     <ul class="list-group">
-                                                                       <li class="list-group-item">${task.taskName} - Night</a></li>
+                                                                       <li class="mb-1 mt-1 list-group-item">${task.taskName} - Night</a></li>
                                                                     <ul>
+                                                        </div>
                                                                     `
 
                                 }
