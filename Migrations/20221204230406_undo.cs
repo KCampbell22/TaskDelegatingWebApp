@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TaskDelegatingWebApp.Migrations
 {
     /// <inheritdoc />
-    public partial class AddRelations : Migration
+    public partial class undo : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -80,7 +80,7 @@ namespace TaskDelegatingWebApp.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TaskName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TaskDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TimeOfDay = table.Column<int>(type: "int", nullable: true),
+                    TimeOfDay = table.Column<int>(type: "int", nullable: false),
                     DayId = table.Column<int>(type: "int", nullable: false),
                     PersonId = table.Column<int>(type: "int", nullable: false)
                 },

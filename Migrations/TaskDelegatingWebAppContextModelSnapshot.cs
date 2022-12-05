@@ -112,7 +112,7 @@ namespace TaskDelegatingWebApp.Migrations
                     b.Property<string>("TaskName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("TimeOfDay")
+                    b.Property<int>("TimeOfDay")
                         .HasColumnType("int");
 
                     b.HasKey("TaskItemId");

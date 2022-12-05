@@ -12,8 +12,8 @@ using TaskDelegatingWebApp.Data;
 namespace TaskDelegatingWebApp.Migrations
 {
     [DbContext(typeof(TaskDelegatingWebAppContext))]
-    [Migration("20221126054910_AddRelations")]
-    partial class AddRelations
+    [Migration("20221204230406_undo")]
+    partial class undo
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -115,7 +115,7 @@ namespace TaskDelegatingWebApp.Migrations
                     b.Property<string>("TaskName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("TimeOfDay")
+                    b.Property<int>("TimeOfDay")
                         .HasColumnType("int");
 
                     b.HasKey("TaskItemId");

@@ -16,5 +16,4 @@ namespace TaskDelegatingWebApp.Dtos
     }
 
 
-    public List<TaskItemDto>
 }
