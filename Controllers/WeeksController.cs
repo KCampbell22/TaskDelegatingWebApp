@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
 using TaskDelegatingWebApp.Data;
 using TaskDelegatingWebApp.Models;
+using TaskDelegatingWebApp.ViewModels;
 
 namespace TaskDelegatingWebApp.Controllers
 {
@@ -20,10 +23,41 @@ namespace TaskDelegatingWebApp.Controllers
         }
 
         // GET: Weeks
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? id, int? dayId, int? taskId)
         {
-              return View(await _context.Week.ToListAsync());
+            var vm = new WeekViewModel();
+            vm.Week = await _context.Week.Include(w => w.Days)
+                .ThenInclude(d => d.People)
+                .ThenInclude(p => p.TaskItems)
+                .ToListAsync();
+
+            if (id != null)
+            {
+                ViewBag.WeekID = id.Value; // Set the ViewBag.WeekID property
+                vm.Days = vm.Week.Where(w => w.Id == id.Value)
+                    .Single().Days;
+            }
+
+            if (dayId != null)
+            {
+                ViewBag.DayId = dayId.Value;
+                vm.Tasks = vm.Days.Where(d => d.DayId == dayId.Value)
+                    .Single().TaskItems;
+            }
+
+            // Populate the Model.Days property with the days in the current week
+            
+
+            return View(vm);
         }
+
+
+
+
+
+
+
+
 
         // GET: Weeks/Details/5
         public async Task<IActionResult> Details(int? id)

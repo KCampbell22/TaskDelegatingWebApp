@@ -11,13 +11,18 @@ namespace TaskDelegatingWebApp.Models
 
 
         public ICollection<TaskItem> TaskItems { get; set; }
-        public ICollection<Person> People { get; set; }
 
         public int WeekId { get; set; }
         public Week Week { get; set; }
 
+        public IEnumerator<TaskItem> GetEnumerator()
+        {
+            foreach (var taskItem in TaskItems)
+            {
+                yield return taskItem;
+            }
+        }
 
 
-        
     }
 }

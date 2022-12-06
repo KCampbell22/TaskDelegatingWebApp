@@ -4,6 +4,96 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - TaskDelegatingWebApp</title>
+    @section Scripts{
+        <script>$(document).ready(function () {
+                console.log("ready")
+                $.ajax({
+                    type: "GET",
+                    url: "https://localhost:7148/api/days",
+                    dataType: "json",
+                    success: function (response) {
+                        var responseJson = JSON.stringify(response)
+                        var responseParse = JSON.parse(responseJson);
+                        var calanderDay = "";
+                        var week = $('#week')
+
+                        $.each(responseParse, function (index, day) {
+                            if (day.taskItems.length === 0) {
+                                calanderDay += `<div class="col border-1 border-end border-secondary flex-column d-flex">
+                                                                                    <h2 class="">${day.dayName}</h2>
+                                                                                    <hr>
+                                                                                    <ul class="list-group">
+                                                                                       <li class="list-group-item">No tasks</li>
+                                                                                    <ul>
+                                                                                    `;
+
+                            }
+                            else {
+                                calanderDay += `<div class="col border-1 border-end border-secondary
+                                    flex-column d-flex">
+                                                                                            <h2>${day.dayName}</h2>
+                                                                                            <hr>`;
+                            }
+
+                            $.each(this.taskItems, function (i, task) {
+
+
+
+                                if (task.timeOfDay === 0) {
+                                    calanderDay += `<div class="d-flex flex-column">
+                                                                            <ul class="list-group">
+                                                                                       <li class="mb-1 mt-1 list-group-item">${task.taskName} - Morning</a></li>
+                                                                            <ul>
+                                                                            </div>`
+
+                                }
+                                else if (task.timeOfDay === 1) {
+                                    calanderDay +=
+                                        `<div class="d-flex flex-column">
+                                                                                    <ul class="list-group">
+                                                                                               <li class="mb-1 mt-1 list-group-item">${task.taskName} - Afternoon</a></li>
+                                                                                    <ul>
+                                                                                            </div>`;
+
+                                }
+                                else if (task.timeOfDay === 2) {
+                                    calanderDay +=
+                                        `<div class="d-flex flex-column">
+                                                                            <ul class="list-group">
+                                                                               <li class="mb-1 mt-1 list-group-item">${task.taskName} - Night</a></li>
+                                                                            <ul>
+                                                                </div>
+                                                                            `
+
+                                }
+
+
+
+                            })
+                            calanderDay += `</div>`;
+
+                            ;
+
+
+
+                        });
+                        $("#week").append(calanderDay);
+                        // send get request every 10 seconds
+
+
+
+
+
+
+
+                    },
+                });
+            });</script>
+    }
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/TaskDelegatingWebApp.styles.css" asp-append-version="true" />
@@ -41,9 +131,6 @@
             &copy; 2022 - TaskDelegatingWebApp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+    
 </body>
 </html>

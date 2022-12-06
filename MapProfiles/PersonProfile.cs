@@ -15,6 +15,8 @@ namespace TaskDelegatingWebApp.MapProfiles
             CreateMap<TaskItemDto, TaskItem>();
 
             CreateMap<PersonDto, Person>();
+
+
         }
     }
 }
