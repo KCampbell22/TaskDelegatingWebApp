@@ -6,23 +6,29 @@
 
 <h1>Details</h1>
 
-<div>
-    <h4>Week</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.WeekStart)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.WeekStart)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.WeekEnd)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.WeekEnd)
-        </dd>
-    </dl>
+<div class="row">
+    @foreach(var day in Model.Days)
+    {
+        <div class="col">
+            <h2>@day.DayName</h2>
+            <hr>
+            <div>
+                <ul class="list-group">
+                    @if(day.TaskItems.Count == 0)
+                    {
+                     <li class="list-group-item">No Tasks</li>   
+                    }
+                    else{
+                    @foreach(var task in day.TaskItems)
+                    {
+                        <li class="list-group-item">@task.TaskName</li>
+                    }
+                    }
+                </ul>
+            </div>
+        </div>
+
+    }
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |

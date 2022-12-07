@@ -42,7 +42,7 @@ namespace TaskDelegatingWebApp.Controllers.Api
 
 
             var days = _context.Day.Include(e => e.Week)
-                .Include(e => e.TaskItems).ThenInclude(e => e.Person).ThenInclude(e => e.TaskItems).Include(e => e.People);
+                .Include(e => e.TaskItems).ThenInclude(e => e.Person).ThenInclude(e => e.TaskItems);
                 
 
             if(days == null)
@@ -57,7 +57,7 @@ namespace TaskDelegatingWebApp.Controllers.Api
         [HttpGet]
         public DaysDto GetDay(int id)
         {
-            var day = _context.Day.Include(e => e.Week).Include(e => e.TaskItems).Include(e => e.People).SingleOrDefault(c => c.DayId == id);
+            var day = _context.Day.Include(e => e.Week).Include(e => e.TaskItems).SingleOrDefault(c => c.DayId == id);
 
             if (day == null)
             {

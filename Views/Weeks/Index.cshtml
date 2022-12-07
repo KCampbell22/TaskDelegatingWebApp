@@ -1,73 +1,41 @@
-﻿@model TaskDelegatingWebApp.ViewModels.WeekViewModel;
+﻿@model IEnumerable<TaskDelegatingWebApp.Models.Week>
 
 @{
-    ViewBag.Title = "Weeks";
+    ViewData["Title"] = "Index";
 }
 
+<h1>Index</h1>
 
-
-<h1>Week View</h1>
-
-<table>
-    <tr>
-        <th>Week ID</th>
-        <th>Days</th>
-        <th>Tasks</th>
-    </tr>
-    @for (int i = 0; i < Model.Days.Count(); i++)
-    {
-        var week = @Model.Week.ElementAt(i);
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
         <tr>
-            <td>@week.Id</td>
+            <th>
+                @Html.DisplayNameFor(model => model.WeekStart)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WeekEnd)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
             <td>
-                <table>
-                    <tr>
-                        <th>Day ID</th>
-                        <th>People</th>
-                        <th>Tasks</th>
-                    </tr>
-                    @for (int j = 0; j < week.Days.Count; j++)
-                    {
-                        var day = week.Days.ElementAt(j);
-                        <tr>
-                            <td>@day.DayId</td>
-                            <td>
-                                <table>
-                                    <tr>
-                                        <th>Name</th>
-                                    </tr>
-                                    <tr>
-                                        Description
-
-                                    </tr>
-                                    <tr>
-                                        Person
-                                    </tr>
-                                    }
-                                </table>
-                            </td>
-                            <td>
-                                <table>
-                                    <tr>
-                                        <th>Task ID</th>
-                                        <th>Description</th>
-                                        <th>Person</th>
-                                    </tr>
-                                    @for (int l = 0; l < day.TaskItems.Count; l++)
-                                    {
-                                        var task = day.TaskItems.ElementAt(l);
-                                        <tr>
-                                            <td>@task.TaskItemId</td>
-                                            <td>@task.TaskDescription</td>
-                                            <td>@task.Person.Name</td>
-                                        </tr>
-                                    }
-                                </table>
-                            </td>
-                        </tr>
-                    }
-                </table>
+                @Html.DisplayFor(modelItem => item.WeekStart)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WeekEnd)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
-    }
+}
+    </tbody>
 </table>

@@ -9,10 +9,7 @@
 
         public ICollection<Day> Days { get; set; }
 
-        public Week()
-        {
-            Days = new List<Day>();
-        }
+       
 
         public IEnumerator<Day> GetEnumerator()
         {

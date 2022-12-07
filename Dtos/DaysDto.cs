@@ -11,7 +11,6 @@ namespace TaskDelegatingWebApp.Dtos
         public int WeekId { get; set; }
         public Week Week { get; set; }
 
-        public ICollection<Person> People { get; set; }
         
         public ICollection<TaskItem> TaskItems { get; set; }
 

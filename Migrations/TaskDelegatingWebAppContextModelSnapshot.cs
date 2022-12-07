@@ -51,9 +51,6 @@ namespace TaskDelegatingWebApp.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PersonId"));
 
-                    b.Property<int?>("DayId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(255)
@@ -86,8 +83,6 @@ namespace TaskDelegatingWebApp.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("PersonId");
-
-                    b.HasIndex("DayId");
 
                     b.ToTable("Person");
                 });
@@ -154,13 +149,6 @@ namespace TaskDelegatingWebApp.Migrations
                     b.Navigation("Week");
                 });
 
-            modelBuilder.Entity("TaskDelegatingWebApp.Models.Person", b =>
-                {
-                    b.HasOne("TaskDelegatingWebApp.Models.Day", null)
-                        .WithMany("People")
-                        .HasForeignKey("DayId");
-                });
-
             modelBuilder.Entity("TaskDelegatingWebApp.Models.TaskItem", b =>
                 {
                     b.HasOne("TaskDelegatingWebApp.Models.Day", "Day")
@@ -182,8 +170,6 @@ namespace TaskDelegatingWebApp.Migrations
 
             modelBuilder.Entity("TaskDelegatingWebApp.Models.Day", b =>
                 {
-                    b.Navigation("People");
-
                     b.Navigation("TaskItems");
                 });
 

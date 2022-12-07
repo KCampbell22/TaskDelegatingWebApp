@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json.Linq;
 using TaskDelegatingWebApp.Data;
 using TaskDelegatingWebApp.Models;
 using TaskDelegatingWebApp.ViewModels;
@@ -23,41 +21,11 @@ namespace TaskDelegatingWebApp.Controllers
         }
 
         // GET: Weeks
-        public async Task<IActionResult> Index(int? id, int? dayId, int? taskId)
+        public async Task<IActionResult> Index()
         {
-            var vm = new WeekViewModel();
-            vm.Week = await _context.Week.Include(w => w.Days)
-                .ThenInclude(d => d.People)
-                .ThenInclude(p => p.TaskItems)
-                .ToListAsync();
-
-            if (id != null)
-            {
-                ViewBag.WeekID = id.Value; // Set the ViewBag.WeekID property
-                vm.Days = vm.Week.Where(w => w.Id == id.Value)
-                    .Single().Days;
-            }
-
-            if (dayId != null)
-            {
-                ViewBag.DayId = dayId.Value;
-                vm.Tasks = vm.Days.Where(d => d.DayId == dayId.Value)
-                    .Single().TaskItems;
-            }
-
-            // Populate the Model.Days property with the days in the current week
-            
-
-            return View(vm);
+            var Weeks = _context.Week.Include(e => e.Days).ThenInclude(e => e.TaskItems).ToList();
+              return View(await _context.Week.ToListAsync());
         }
-
-
-
-
-
-
-
-
 
         // GET: Weeks/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -67,15 +35,23 @@ namespace TaskDelegatingWebApp.Controllers
                 return NotFound();
             }
 
+            // Use the Include method to eager-load the Days and TaskItems entities
             var week = await _context.Week
-                .FirstOrDefaultAsync(m => m.Id == id);
+              .Include(w => w.Days)
+              .ThenInclude(e => e.TaskItems)
+              .FirstOrDefaultAsync(m => m.Id == id);
             if (week == null)
             {
                 return NotFound();
             }
 
-            return View(week);
+            // Create a list of WeekViewModel objects
+           
+
+            // Pass the list of WeekViewModel objects to the view
+            return View(week );
         }
+
 
         // GET: Weeks/Create
         public IActionResult Create()
