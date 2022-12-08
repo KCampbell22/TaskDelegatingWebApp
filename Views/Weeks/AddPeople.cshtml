@@ -1,0 +1,46 @@
+﻿@model List<Person>
+
+<div style="height: 100vh;" class="row justify-content-center align-items-center d-flex">
+    <div class="col-6" id="start-menu">
+        <h2>Do you want to add any people?</h2>
+        <h3>People:</h3>
+        <button type="button" onclick="" id="people-button" class="btn btn-outline-secondary">
+            People <span class="badge bg-secondary">@Model.Count</span>
+        </button>
+        <ul class="list-group" id="people-list">
+        </ul>
+
+        <div class="btn-group w-75" role="group" aria-label="...">
+            <input type="button" class="btn btn-outline-secondary" value="Don't Add People'" onclick="@("window.location.href='" + @Url.Action("GetTasks", "Weeks") + "'");" />
+            <input type="button" class="btn btn-outline-secondary" value="Create Week" onclick="@("window.location.href='" + @Url.Action("Create", "Weeks") + "'");" />
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+<script type="text/javascript">
+        $(document).ready(function () {
+            console.log("ready")
+            $("#people-button").click(function () {
+                console.log("click")
+                $.ajax({
+                    url: 'https://localhost:7148/api/peopleapi',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        var dataJson = JSON.stringify(data);
+                        var dataParsed = JSON.parse(dataJson)
+                        var htmlstr = ''
+                        $.each(dataParsed, function (i, item) {
+                            htmlstr += `<li class="list-group-item">${item.name}</li>`
+                            console.log(item.name)
+                        });
+
+                        $("#people-list").html(htmlstr);
+                    }
+                });
+            });
+        });
+        </script>
+    }

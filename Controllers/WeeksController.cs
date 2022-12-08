@@ -1,30 +1,73 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TaskDelegatingWebApp.Data;
 using TaskDelegatingWebApp.Models;
-using TaskDelegatingWebApp.ViewModels;
+using Syncfusion.HtmlConverter;
+using Syncfusion.Pdf;
+using System.IO;
+using System.Text;
+using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Mvc.ViewEngines;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using jsreport.Types;
 
 namespace TaskDelegatingWebApp.Controllers
 {
     public class WeeksController : Controller
     {
         private readonly TaskDelegatingWebAppContext _context;
+        private List<PdfFile> _pdfFiles = new List<PdfFile>();
+
 
         public WeeksController(TaskDelegatingWebAppContext context)
         {
             _context = context;
         }
 
-        // GET: Weeks
-        public async Task<IActionResult> Index()
+
+        
+    // GET: Weeks
+    public async Task<IActionResult> Index()
         {
             var Weeks = _context.Week.Include(e => e.Days).ThenInclude(e => e.TaskItems).ToList();
               return View(await _context.Week.ToListAsync());
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetMostRecentWeek()
+        {
+
+
+
+            // Query the Week table in the database
+            var weeks = await _context.Week.OrderByDescending(w => w.WeekStart).ToListAsync();
+
+            var week = weeks.FirstOrDefault();
+            if (week == null)
+                {
+                    return NotFound();
+                }
+
+            // Return the view, passing the week object as a parameter
+            return RedirectToAction("Details", new { id = week.Id });
+
+
+        }
+
+        [HttpGet]
+        public  IActionResult AddPeople()
+        {
+            var people =  _context.Person.ToList();
+            return View(people);
+        }
+
+
+        [HttpGet]
+        public IActionResult AddTasks()
+        {
+            var tasks = _context.TaskItem.ToList();
+
+            return View(tasks);
         }
 
         // GET: Weeks/Details/5
@@ -70,7 +113,7 @@ namespace TaskDelegatingWebApp.Controllers
             {
                 _context.Add(week);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("AddPeople");
             }
             return View(week);
         }
@@ -167,5 +210,17 @@ namespace TaskDelegatingWebApp.Controllers
         {
           return _context.Week.Any(e => e.Id == id);
         }
+
+        public IActionResult GetTaskOptions()
+        {
+            TaskItem task = new TaskItem();
+            return PartialView("_taskOptionMenu.cshtml", task);
+        }
+
+
+       
+
     }
+
+  
 }

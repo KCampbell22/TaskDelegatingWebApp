@@ -7,105 +7,28 @@
 
     
 
-    <div id="week" class="m-auto row flex-row bg-light w-80 min-vh-75">
         
         
-    </div>
+        <div style="height: 100vh;" class="row justify-content-center align-items-center d-flex">
+            <div class="col-6" id="start-menu">
+        <h2>Welcome!</h2> <p>You can view your most schedule</p> <p>OR</p> <p>Create a new Schedule</p>
+
+            <div class="btn-group w-75" role="group" aria-label="...">
+            <input type="button" class="btn btn-outline-secondary" value="View" onclick="@("window.location.href='" + @Url.Action("GetMostRecentWeek", "Weeks") + "'");" />
+            <input type="button" class="btn btn-outline-secondary" value="Create Week" onclick="@("window.location.href='" + @Url.Action("Create", "Weeks") + "'");" />
+        </div>
+
+            </div>
+        
+        
+
+
+        </div>
+        
 
 
 
     
 
-@section Scripts{
-    <script>
-        $(document).ready(function () {
-            console.log("ready")
-            $.ajax({
-                type: "GET",
-                url: "https://localhost:7148/api/days",
-                dataType: "json",
-                success: function (response) {
-                    var responseJson = JSON.stringify(response)
-                    var responseParse = JSON.parse(responseJson);
-                    var calanderDay = "";
-                    var week = $('#week')
 
-                    $.each(responseParse, function (index, day) {
-                        if (day.taskItems.length === 0) {
-                            calanderDay += `<div class="col border-1 border-end border-secondary flex-column d-flex">
-                                                                            <h2 class="">${day.dayName}</h2>
-                                                                            <hr>
-                                                                            <ul class="list-group">
-                                                                               <li class="list-group-item">No tasks</li>
-                                                                            <ul>
-                                                                            `;
-
-                        }
-                        else {
-                            calanderDay += `<div class="col border-1 border-end border-secondary
-                            flex-column d-flex">
-                                                                                    <h2>${day.dayName}</h2>
-                                                                                    <hr>`;
-                        }
-                                    
-                            $.each(this.taskItems, function (i, task) {
-                            
-                                
-
-                                if (task.timeOfDay === 0) {
-                                    calanderDay += `<div class="d-flex flex-column">
-                                                                    <ul class="list-group">
-                                                                               <li class="mb-1 mt-1 list-group-item">${task.taskName} - Morning</a></li>
-                                                                    <ul>
-                                                                    </div>`
-
-                                }
-                                else if (task.timeOfDay === 1) {
-                                    calanderDay +=
-                                    `<div class="d-flex flex-column">
-                                                                            <ul class="list-group">
-                                                                                       <li class="mb-1 mt-1 list-group-item">${task.taskName} - Afternoon</a></li>
-                                                                            <ul>
-                                                                                    </div>`;
-
-                                }
-                                else if (task.timeOfDay === 2) {
-                                    calanderDay +=
-                                                        `<div class="d-flex flex-column">
-                                                                    <ul class="list-group">
-                                                                       <li class="mb-1 mt-1 list-group-item">${task.taskName} - Night</a></li>
-                                                                    <ul>
-                                                        </div>
-                                                                    `
-
-                                }
-                               
-
-                            
-                        })
-                        calanderDay +=`</div>`;
-                        
-;
-
-
-
-                    });
-                    $("#week").append(calanderDay);
-                    // send get request every 10 seconds
-                   
-
-
-
-
-
-
-                },
-            });
-        });
-
-
-
-      
-       
-    </script>
-}
+   

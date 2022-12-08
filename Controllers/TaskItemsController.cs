@@ -170,5 +170,21 @@ namespace TaskDelegatingWebApp.Controllers
         {
           return _context.TaskItem.Any(e => e.TaskItemId == id);
         }
+
+
+        /*
+        public async IActionResult AddTask(int? id, [Bind("TaskItemId,TaskName,TaskDescription,TimeOfDay,DayId,PersonId")] TaskItem taskItem)
+        {
+            if (id == null || _context.Day == null)
+            {
+                return Problem("No day");
+            }
+
+            ViewData["Day"] = id.Value;
+
+
+
+        }
+        */
     }
 }

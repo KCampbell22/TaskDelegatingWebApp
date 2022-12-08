@@ -1,0 +1,48 @@
+﻿@model List<TaskItem>;
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+
+<div style="height: 100vh;" class="row justify-content-center align-items-center d-flex">
+    <div class="col-6" id="start-menu">
+        <h2>Do you want to add any tasks?</h2>
+        <h3>Tasks:</h3>
+        <button type="button" onclick="" id="people-button" class="btn btn-outline-secondary">
+            People <span class="badge bg-secondary">@Model.Count</span>
+        </button>
+        <ul class="list-group" id="people-list">
+        </ul>
+
+        <div class="btn-group w-75" role="group" aria-label="...">
+            <input type="button" class="btn btn-outline-secondary" value="Don't Add People'" onclick="@("window.location.href='" + @Url.Action("GetTasks", "Weeks") + "'");" />
+            <input type="button" class="btn btn-outline-secondary" value="Create Week" onclick="@("window.location.href='" + @Url.Action("Create", "Weeks") + "'");" />
+        </div>
+    </div>
+</div>
+
+
+        @section Scripts{
+    <script>
+        function submitForm() {
+            // Get the form data
+            var formData = {
+                'TaskName': $('input[name=TaskName]').val(),
+                'TaskDescription': $('input[name=TaskDescription]').val(),
+                'TimeOfDay': $('input[name=TimeOfDay]').val(),
+                'DayId': $('select[name=DayId]').val(),
+                'PersonId': $('select[name=PersonId]').val()
+            };
+
+            // Make the Ajax request
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("Create")',
+                data: formData,
+                success: function (data) {
+                    // Handle the response here
+                }
+            });
+        }
+    </script>
+        }

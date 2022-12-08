@@ -31,7 +31,7 @@ namespace TaskDelegatingWebApp.Controllers.Api
 
 
 
-            return _context.Person.Include(e => e.TaskItems).ToList().Select(_mapper.Map<Person, PersonDto>);
+            return _context.Person.ToList().Select(_mapper.Map<Person, PersonDto>);
 
         }
 
