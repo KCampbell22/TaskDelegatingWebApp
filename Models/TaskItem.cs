@@ -18,7 +18,8 @@ namespace TaskDelegatingWebApp.Models
         public Day Day { get; set; }
         public Person Person { get; set; }
        
-        
+        public string WeekName { get; set; }
+        public Week Week { get; set; }
 
 
 
