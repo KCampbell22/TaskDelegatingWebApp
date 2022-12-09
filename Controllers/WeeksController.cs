@@ -2,14 +2,11 @@
 using Microsoft.EntityFrameworkCore;
 using TaskDelegatingWebApp.Data;
 using TaskDelegatingWebApp.Models;
-using Syncfusion.HtmlConverter;
-using Syncfusion.Pdf;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using jsreport.Types;
 
 namespace TaskDelegatingWebApp.Controllers
 {
@@ -40,9 +37,8 @@ namespace TaskDelegatingWebApp.Controllers
 
 
             // Query the Week table in the database
-            var weeks = await _context.Week.OrderByDescending(w => w.WeekStart).ToListAsync();
-
-            var week = weeks.FirstOrDefault();
+            var Weeks = await _context.Week.Include(e => e.Days).ThenInclude(e => e.TaskItems).OrderByDescending(e => e.WeekStart).ToListAsync();
+            var week = Weeks.FirstOrDefault();
             if (week == null)
                 {
                     return NotFound();
@@ -63,9 +59,13 @@ namespace TaskDelegatingWebApp.Controllers
 
 
         [HttpGet]
-        public IActionResult AddTasks()
+        public IActionResult GetTasks()
         {
             var tasks = _context.TaskItem.ToList();
+
+
+
+
 
             return View(tasks);
         }
@@ -111,12 +111,35 @@ namespace TaskDelegatingWebApp.Controllers
         {
             if (ModelState.IsValid)
             {
+                // Create a list of days in the week
+                var days = new List<Day>
+        {
+            new Day { DayName = "Monday" },
+            new Day { DayName = "Tuesday" },
+            new Day { DayName = "Wednesday" },
+            new Day { DayName = "Thursday" },
+            new Day { DayName = "Friday" },
+                        new Day { DayName = "Saturday" },
+                                    new Day { DayName = "Sunday" }
+
+
+        };
+
+                // Add the days to the week object
+                week.Days = days;
+
+                // Save the week to the database
                 _context.Add(week);
                 await _context.SaveChangesAsync();
+
                 return RedirectToAction("AddPeople");
             }
             return View(week);
         }
+
+
+
+
 
         // GET: Weeks/Edit/5
         public async Task<IActionResult> Edit(int? id)
