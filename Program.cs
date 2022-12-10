@@ -5,13 +5,14 @@ using TaskDelegatingWebApp.Data;
 using AutoMapper.Internal.Mappers;
 using AutoMapper;
 using NuGet.Protocol;
+using TaskDelegatingWebApp.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddDbContext<TaskDelegatingWebAppContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("appDB")));
 
-
+builder.Services.AddScoped<WeekService>();
 
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 

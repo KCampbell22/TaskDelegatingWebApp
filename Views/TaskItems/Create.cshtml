@@ -1,4 +1,4 @@
-﻿@model TaskDelegatingWebApp.Models.TaskItem
+@model TaskDelegatingWebApp.Models.TaskItem
 
 @{
     ViewData["Title"] = "Create";
@@ -18,28 +18,18 @@
                 <span asp-validation-for="TaskName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="TaskDescription" class="control-label"></label>
-                <input asp-for="TaskDescription" class="form-control" />
-                <span asp-validation-for="TaskDescription" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TimeOfDay" class="control-label"></label>
-                <input asp-for="TimeOfDay" class="form-control" />
-                <span asp-validation-for="TimeOfDay" class="text-danger"></span>
+                <label asp-for="PersonId" class="control-label"></label>
+                <select asp-for="PersonId" class ="form-control" asp-items="ViewBag.PersonId"></select>
             </div>
             <div class="form-group">
                 <label asp-for="DayId" class="control-label"></label>
                 <select asp-for="DayId" class ="form-control" asp-items="ViewBag.DayId"></select>
             </div>
             <div class="form-group">
-                <label asp-for="PersonId" class="control-label"></label>
-                <select asp-for="PersonId" class ="form-control" asp-items="ViewBag.PersonId"></select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Create" class="btn btn-outline-secondary" />
             </div>
         </form>
-    </div>
+            <input type="button" class="btn btn-outline-secondary" value="View Weeks" onclick="@("window.location.href='" + @Url.Action("Index", "Weeks") + "'");" />
 </div>
 
 <div>

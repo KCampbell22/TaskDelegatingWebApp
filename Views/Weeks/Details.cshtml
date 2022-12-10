@@ -1,78 +1,27 @@
-﻿@model TaskDelegatingWebApp.Models.Week
+@model TaskDelegatingWebApp.ViewModels.WeekVIewModel;
+    <div class="row">
+        <h2>@Model.Name</h2>
 
-@{
-    ViewData["Title"] = "Details";
-}
-
-<h1>Details</h1>
-
-<div class="row">
-    @foreach(var day in Model.Days)
-    {
-        <div class="col">
-            <h2>@day.DayName</h2>
-            <hr>
-            <div>
-                <ul class="list-group">
-                    @if(day.TaskItems.Count == 0)
-                    {
-                     <li class="list-group-item">No Tasks - <a asp-action="Create" asp-controller="TaskItems">Create a task</a></li>   
-                    }
-                      else{
-                    @foreach(var task in day.TaskItems)
-                    {
-                            <li class="list-group-item d-flex justify-content-around">
-                                @task.TaskName 
-                                    <a id="options-btn" style="z-index: 10;" class="lh-sm options-btn text-decoration-none pe-auto text-md-center">&hellip;</a>
-                                    <div  id="options-content">
-                                        <a asp-action="Edit" asp-controller="TaskItems" asp-route-id="@task.TaskItemId">Edit Task</a>
-                                        <a asp-action="Delete" asp-controller="TaskItems" asp-route-id="@task.TaskItemId">Delete Task</a>
-                                        <a asp-action="Details" asp-controller="TaskItems" asp-route-id="@task.TaskItemId">Get Task Details</a>
-
-
-                                    </div>
-                               
-                            </li>
-                            
-                    }
-                    }
-                </ul>
-            </div>
-            <div id="dropdown">
-            </div>
-        </div>
-
-    }
-    
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
-
-@section Scripts{
-
-    <script>
         
-       $(document).ready(function() {
-           $('#options-content').hide();
-            console.log("hello im ready");
-           $("#options-btn").on('click', function(e){
-                $("#options-content").toggle();
-                $("#options-content").toggleClass("showFlex");
+            @foreach (var day in Model.Days)
+            {<div class="col border-1 border-end d-flex flex-column align-items-start justify-content-around">
+                <h3>@day.DayName</h3>
+                <hr />
+                <ul class="list-group">
+                    @if (day.TaskItems.Count == 0)
+                    {
+                        <li class="list-group-item">no tasks</li>
+                    }
+                    else
+                    {
+                        @foreach (var task in day.TaskItems)
+                        {
+                            <li class="list-group-item">@task.TaskName -- @task.AssignedPerson.PersonName</li>
+                        }
+                    }
 
-                
-
-               console.log("click");
-           })
-       })
-    </script>
-}
-
-    
-
-
-
-                                       
-
-                                        
+                </ul>
+              </div>
+            }
+        
+    </div>

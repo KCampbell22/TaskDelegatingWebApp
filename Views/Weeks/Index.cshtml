@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TaskDelegatingWebApp.Models.Week>
+@model IEnumerable<TaskDelegatingWebApp.Models.Week>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,10 +13,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.WeekStart)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.WeekEnd)
+                @Html.DisplayNameFor(model => model.WeekName)
             </th>
             <th></th>
         </tr>
@@ -25,10 +22,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.WeekStart)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.WeekEnd)
+                @Html.DisplayFor(modelItem => item.WeekName)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

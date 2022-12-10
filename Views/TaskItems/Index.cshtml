@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TaskDelegatingWebApp.Models.TaskItem>
+@model IEnumerable<TaskDelegatingWebApp.Models.TaskItem>
 
 @{
     ViewData["Title"] = "Index";
@@ -16,16 +16,10 @@
                 @Html.DisplayNameFor(model => model.TaskName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TaskDescription)
+                @Html.DisplayNameFor(model => model.AssignedPerson)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TimeOfDay)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Day)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Person)
+                @Html.DisplayNameFor(model => model.AssignedDay)
             </th>
             <th></th>
         </tr>
@@ -37,16 +31,10 @@
                 @Html.DisplayFor(modelItem => item.TaskName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.TaskDescription)
+                @Html.DisplayFor(modelItem => item.AssignedPerson.PersonId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.TimeOfDay)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Day.DayId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Person.Email)
+                @Html.DisplayFor(modelItem => item.AssignedDay.DayId)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.TaskItemId">Edit</a> |

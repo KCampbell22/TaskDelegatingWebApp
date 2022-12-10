@@ -21,5 +21,8 @@ namespace TaskDelegatingWebApp.Data
         public DbSet<TaskDelegatingWebApp.Models.TaskItem> TaskItem { get; set; }
 
         public DbSet<TaskDelegatingWebApp.Models.Week> Week { get; set; }
+
+
+
     }
 }

@@ -10,12 +10,14 @@
     <PackageReference Include="AutoMapper" Version="12.0.0" />
     <PackageReference Include="AutoMapper.Collection" Version="9.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
-    <PackageReference Include="iTextSharp" Version="5.5.13.3" />
-    <PackageReference Include="jQuery.UI.Combined" Version="1.13.2" />
     <PackageReference Include="jsreport.Types" Version="3.9.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.0">
       <PrivateAssets>all</PrivateAssets>
@@ -26,7 +28,6 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
-    <PackageReference Include="Syncfusion.HtmlToPdfConverter.AspNet" Version="20.3.0.60" />
     <PackageReference Include="Syncfusion.Pdf.Net.Core" Version="20.3.0.60" />
     <PackageReference Include="System.Text.Json" Version="7.0.0" />
     <PackageReference Include="Wkhtmltopdf.NetCore" Version="3.0.2" />
@@ -43,5 +44,6 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
+    <Folder Include="ViewModels\" />
   </ItemGroup>
 </Project>

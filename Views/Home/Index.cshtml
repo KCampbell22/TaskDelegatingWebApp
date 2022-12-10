@@ -1,4 +1,4 @@
-﻿@model TaskDelegatingWebApp.Dtos.DaysDto;
+﻿@model TaskDelegatingWebApp.Models.Week;
 
 @{
     ViewData["Title"] = "Home Page";
@@ -11,10 +11,10 @@
         
         <div style="height: 100vh;" class="row justify-content-center align-items-center d-flex">
             <div class="col-6" id="start-menu">
-        <h2>Welcome!</h2> <p>You can view your most schedule</p> <p>OR</p> <p>Create a new Schedule</p>
+        <h2>Welcome!</h2> <p>You can view your archived weeks</p> <p>OR</p> <p>Create a new Schedule</p>
 
             <div class="btn-group w-75" role="group" aria-label="...">
-            <input type="button" class="btn btn-outline-secondary" value="View" onclick="@("window.location.href='" + @Url.Action("GetMostRecentWeek", "Weeks") + "'");" />
+            <input type="button" class="btn btn-outline-secondary" value="View Weeks" onclick="@("window.location.href='" + @Url.Action("Index", "Weeks") + "'");" />
             <input type="button" class="btn btn-outline-secondary" value="Create Week" onclick="@("window.location.href='" + @Url.Action("Create", "Weeks") + "'");" />
         </div>
 

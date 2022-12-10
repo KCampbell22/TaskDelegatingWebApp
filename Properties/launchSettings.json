@@ -11,7 +11,7 @@
     "TaskDelegatingWebApp": {
       "commandName": "Project",
       "launchBrowser": true,
-      "applicationUrl": "https://localhost:7148;http://localhost:5067",
+      "applicationUrl": "http://localhost:23530",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

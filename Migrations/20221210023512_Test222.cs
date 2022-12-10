@@ -1,12 +1,11 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace TaskDelegatingWebApp.Migrations
 {
     /// <inheritdoc />
-    public partial class Fix : Migration
+    public partial class Test222 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,15 +16,7 @@ namespace TaskDelegatingWebApp.Migrations
                 {
                     PersonId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    Monday = table.Column<bool>(type: "bit", nullable: false),
-                    Tuesday = table.Column<bool>(type: "bit", nullable: false),
-                    Wednesday = table.Column<bool>(type: "bit", nullable: false),
-                    Thursday = table.Column<bool>(type: "bit", nullable: false),
-                    Friday = table.Column<bool>(type: "bit", nullable: false),
-                    Saturday = table.Column<bool>(type: "bit", nullable: false),
-                    Sunday = table.Column<bool>(type: "bit", nullable: false)
+                    PersonName = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -38,8 +29,7 @@ namespace TaskDelegatingWebApp.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    WeekStart = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    WeekEnd = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    WeekName = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -67,16 +57,38 @@ namespace TaskDelegatingWebApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "DayPerson",
+                columns: table => new
+                {
+                    AssignedPeoplePersonId = table.Column<int>(type: "int", nullable: false),
+                    DaysDayId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DayPerson", x => new { x.AssignedPeoplePersonId, x.DaysDayId });
+                    table.ForeignKey(
+                        name: "FK_DayPerson_Day_DaysDayId",
+                        column: x => x.DaysDayId,
+                        principalTable: "Day",
+                        principalColumn: "DayId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_DayPerson_Person_AssignedPeoplePersonId",
+                        column: x => x.AssignedPeoplePersonId,
+                        principalTable: "Person",
+                        principalColumn: "PersonId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "TaskItem",
                 columns: table => new
                 {
                     TaskItemId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TaskName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TaskDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TimeOfDay = table.Column<int>(type: "int", nullable: false),
-                    DayId = table.Column<int>(type: "int", nullable: false),
-                    PersonId = table.Column<int>(type: "int", nullable: false)
+                    PersonId = table.Column<int>(type: "int", nullable: false),
+                    DayId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -101,6 +113,11 @@ namespace TaskDelegatingWebApp.Migrations
                 column: "WeekId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_DayPerson_DaysDayId",
+                table: "DayPerson",
+                column: "DaysDayId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_TaskItem_DayId",
                 table: "TaskItem",
                 column: "DayId");
@@ -114,6 +131,9 @@ namespace TaskDelegatingWebApp.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "DayPerson");
+
             migrationBuilder.DropTable(
                 name: "TaskItem");
 
